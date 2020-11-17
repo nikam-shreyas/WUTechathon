@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.rateHead {
+  text-decoration: bold;
+  font-weight: bold;
+}
+
+.ratesList {
+  background-color: lightgray;
+}
+.ratesListItem {
+  list-style-type: none;
+}
