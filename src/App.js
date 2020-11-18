@@ -1,6 +1,8 @@
 import "./App.css";
 import React, { Component } from "react";
 import Convertor from "./Convertor";
+import Charts from "./Charts";
+
 class App extends Component {
   state = {
     isLoaded: false,
@@ -18,38 +20,37 @@ class App extends Component {
   };
   maxval = 0;
   maxkey = "USDINR";
+
   fetchRates() {
     let urlLink =
-      "https://cors-anywhere.herokuapp.com/www.freeforexapi.com/api/live?pairs=USDINR,AUDUSD,EURGBP,EURUSD,GBPUSD,NZDUSD,USDAED";
-    setInterval(
-      60000,
-      fetch(urlLink)
-        .then((res) => res.json())
-        .then((res) => {
-          for (const key in res.rates) {
-            if (res.rates.hasOwnProperty(key)) {
-              const element = res.rates[key]["rate"];
-              if (this.state.history[key].length > 5) {
-                this.state.history[key].shift();
-              }
-              this.state.history[key].push(element);
-              if (this.maxval < element) {
-                this.maxval = element;
-                this.maxkey = key;
-              }
+      "http://localhost:3001/getPair/USDINR,AUDUSD,EURGBP,EURUSD,GBPUSD,NZDUSD,USDAED";
+
+    fetch(urlLink)
+      .then((res) => res.json())
+      .then((res) => {
+        for (const key in res) {
+          if (res.hasOwnProperty(key)) {
+            const element = res[key];
+            if (this.state.history[key].length > 5) {
+              this.state.history[key].shift();
+            }
+            this.state.history[key].push(element);
+            if (this.maxval < element) {
+              this.maxval = element;
+              this.maxkey = key;
             }
           }
-        })
-        .then(() => {
-          this.setState({ isLoaded: true });
-        })
-    );
+        }
+      })
+      .then(() => {
+        this.setState({ isLoaded: true });
+      });
   }
   componentDidMount() {
     try {
       setInterval(async () => {
         this.fetchRates();
-      }, 15000);
+      }, 10000);
     } catch (e) {
       console.log(e);
     }
@@ -73,14 +74,24 @@ class App extends Component {
               <div className="col-sm-2" key={index}>
                 <p className="rateHead">{key}</p>
                 <ul className="ratesList">
-                  {this.state.history[key].map((e) => (
-                    <li className="ratesListItem">{e}</li>
+                  {this.state.history[key].map((e, i) => (
+                    <li key={i} className="ratesListItem">
+                      {e}
+                    </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
-          <div className="row">{/* <Convertor /> */}</div>
+
+          <div className="row">
+            <div className="col-sm-6">
+              <Convertor />
+            </div>
+            <div className="col-sm-6">
+              <Charts />
+            </div>
+          </div>
         </div>
       );
     }

@@ -227,52 +227,76 @@ class Convertor extends Component {
     this.setState({ to: event.target.value });
   }
   convert(event) {
-    event.preventDefault();
-    let conversion = this.state.from + this.state.to;
-    let urlLink =
-      "https://www.freeforexapi.com/api/live?pairs=" +
-      this.state.from +
-      this.state.to;
-    fetch(urlLink)
-      .then((res) => res.json())
-      .then((res) => {
-        let factor = res.rates[conversion]["rate"];
-        document.getElementById("result").innerHTML =
-          Number(factor) * Number(this.state.amount);
-      });
+    if (this.state.from === this.state.to) {
+      document.getElementById("result").innerHTML =
+        "Rate: 1 <br /> Result: " + this.state.amount;
+    } else {
+      let conversion = "" + this.state.from + this.state.to;
+      let urlLink = "http://localhost:3001/getPair/" + conversion;
+      fetch(urlLink)
+        .then((res) => res.json())
+        .then((res) => {
+          let factor = Number(res[conversion]);
+          if (res[conversion] === 0) {
+            document.getElementById("result").innerHTML =
+              "<small class='text-danger'>Cannot provide Conversion Rate for the specified exchange.</small>";
+          } else {
+            document.getElementById("result").innerHTML =
+              "Rate: " +
+              res[conversion] +
+              "<br />Result: " +
+              Number(factor) * Number(this.state.amount);
+          }
+        });
+    }
   }
   render() {
     return (
       <>
-        <form className="container">
+        <div className="container">
           <h5>Convertor</h5>
           <select
             name="from"
+            className="custom-select"
             id="from"
             onChange={this.handleFromChange}
             required
           >
             {this.state.list.map((e) => (
               <option key={e} value={e}>
-                e
+                {e}
               </option>
             ))}
           </select>
           To
-          <select name="to" id="to" onChange={this.handleToChange} required>
+          <select
+            name="to"
+            id="to"
+            onChange={this.handleToChange}
+            className="custom-select"
+            required
+          >
             {this.state.list.map((e) => (
               <option key={e} value={e}>
-                e
+                {e}
               </option>
             ))}
           </select>
-          <input type="number" name="amount" id="amount" required />
-          <button className="btn btn-primary" onclick={this.convert}>
+          Amount: <br />
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            placeholder="Amount"
+            className="input"
+            onChange={this.handleAmountChange}
+            required
+          />
+          <button className="btn btn-primary" onClick={this.convert}>
             Convert
           </button>
-          Result:
           <div id="result"></div>
-        </form>
+        </div>
       </>
     );
   }
