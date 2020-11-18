@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable = False)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        return f"User('{self.name}', '{self.email}', '{self.fx_name}')"
 
 
 @app.route('/')
@@ -76,7 +76,10 @@ def login():
         return "Login unsuccessful"
     return redirect("http://localhost:3000")
 
-
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.with_entities(User.fx_name).all()
+    return jsonify({"users":users})
 
 
 if __name__ == '__main__':
