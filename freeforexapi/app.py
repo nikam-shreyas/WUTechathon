@@ -1,7 +1,10 @@
 from flask import Flask, render_template, jsonify
 import requests, json
 from datetime import datetime
+
 app = Flask(__name__)
+
+
 @app.route('/')
 def index():
     x = requests.get("https://www.freeforexapi.com/api/live")
