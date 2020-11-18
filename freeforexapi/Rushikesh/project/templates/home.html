@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Home Page</h1>
+    {% for post in posts %}
+        <article class="media content-section">
+            <div class="media-body">
+                <h1>Home</h1>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
