@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+</head>
+<body>
+   
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            setInterval(() => {
+                fetch("http://127.0.0.1:5000",
+        {
+            headers:{
+                "Content-Type":'application/json',
+                'Access-Control-Allow-Qrigin':'*'
+            }
+        }
+        ).then(res=>res.json()).then(res=>console.log(res))        
+            }, 3000);
+        })
+
+        
+    </script>
+    
+</body>
+</html>
