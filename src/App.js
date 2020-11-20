@@ -1,146 +1,143 @@
 import "./App.css";
 import React, { Component } from "react";
+import Selector from "./Components/Selector";
+import { FcLineChart } from "react-icons/fc";
+import HistoricalGraph from "./Components/HistoricalGraph";
+import LiveRates from "./Components/LiveRates";
 import Convertor from "./Convertor";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+import Temp from "./Temp";
+import LiveGraph from "./Components/LiveGraph";
 class App extends Component {
   state = {
-    isLoaded: false,
-    data: { rates: { "": { rate: "" } } },
-    error: null,
-    history: {
-      USDINR: [0.0],
-      AUDUSD: [0.0],
-      EURGBP: [0.0],
-      EURUSD: [0.0],
-      GBPUSD: [0.0],
-      NZDUSD: [0.0],
-      USDAED: [0.0],
-    },
-    timestamps: [0.0],
-    chartData: [],
-  };
-  maxval = 0;
-  maxkey = "USDINR";
-  minkey = "";
-  minval = 99999;
-  fetchRates() {
-    let urlLink =
-      "http://localhost:3001/getPair/USDINR,AUDUSD,EURGBP,EURUSD,GBPUSD,NZDUSD,USDAED";
+    selection: "USDINR",
+    history: "",
 
-    fetch(urlLink)
-      .then((res) => res.json())
-      .then((res) => {
-        for (const key in res) {
-          if (res.hasOwnProperty(key)) {
-            const element = res[key];
-            if (this.state.history[key].length > 5) {
-              this.state.history[key].shift();
-              this.state.timestamps.shift();
-            }
-            this.state.history[key].push(element);
-            if (this.maxval < element) {
-              this.maxval = element;
-              this.maxkey = key;
-            }
-            if (this.minval > element) {
-              this.minval = element;
-              this.minkey = key;
-            }
+    updateRate: "danger",
+  };
+
+  constructor(props) {
+    super(props);
+    this.changeText = this.changeText.bind(this);
+    this.setSelection = this.setSelection.bind(this);
+  }
+  changeText() {
+    this.setState({ text: Math.random() });
+  }
+  fetchRates() {
+    setInterval(() => {
+      let urlLink = "http://localhost:3001/getPair/" + this.state.selection;
+      fetch(urlLink)
+        .then((res) => res.json())
+        .then((res) => {
+          if (this.state.history > res[this.state.selection]) {
+            this.setState({ updateRate: "danger" });
+          } else {
+            this.setState({ updateRate: "success" });
           }
-        }
-      })
-      .then(() => {
-        this.state.timestamps.push(new Date().getTime());
-        this.state.chartData = [];
-        for (var i = 0; i < 5; i++) {
-          this.state.chartData.push({
-            name: this.state.timestamps[i],
-            AUDUSD: this.state.history.AUDUSD[i],
-          });
-        }
-        this.setState({ isLoaded: true });
-      });
+          this.setState({ history: res[this.state.selection] });
+        });
+    }, 5000);
+  }
+  setSelection() {
+    this.setState({ selection: document.getElementById("selector").value });
   }
   componentDidMount() {
-    try {
-      setInterval(async () => {
-        this.fetchRates();
-      }, 2000);
-    } catch (e) {
-      console.log(e);
-    }
+    this.fetchRates();
   }
   render() {
-    const { error, isLoaded } = this.state;
-    if (error) {
-      return <div>{error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <b>BEST:</b> {this.maxkey} {this.maxval} &nbsp;&nbsp;
-              <b>WORST: </b> {this.minkey} {this.minval}
-            </div>
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div
+            className="col-sm-12"
+            style={{
+              backgroundColor: "#293755af",
+            }}
+          >
+            <p className="header">
+              <FcLineChart /> FXSimplified
+            </p>
           </div>
-          <div className="row">
-            {Object.keys(this.state.history).map((key, index) => (
-              <div className="col-sm-2" key={index}>
-                <p className="rateHead">{key}</p>
-                <ul className="ratesList">
-                  {this.state.history[key].map((e, i) => (
-                    <li key={i} className="ratesListItem">
-                      {e}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        </div>
+        <div className="row">
+          <div className="col-sm-8 selector">
+            <LiveRates />
           </div>
 
-          <div className="row">
-            <div className="col-sm-6">
-              <Convertor />
-            </div>
-            <div className="col-sm-6">
-              <LineChart
-                width={500}
-                height={300}
-                data={this.state.chartData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
+          <div className="col-sm-4 selector">
+            <p
+              id="ratesDisplay"
+              style={{ marginTop: "5px", marginBottom: "5px" }}
+            >
+              <small className="text-sm text-muted">RandomApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="AUDUSD"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">LProvider </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">ExchangeRatesApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+            </p>
+          </div>
+        </div>
+        <div className="row ">
+          <div className="col-sm-8 selector">
+            <HistoricalGraph selection={this.state.selection} />
+          </div>
+          <div className="col-sm-4 selector">
+            <center>
+              <Selector />
+              <button
+                className="btn mb-2"
+                style={{
+                  backgroundColor: "#121825",
+                  color: "aliceblue",
+                }}
+                onClick={this.setSelection}
+              >
+                Select
+              </button>
+              <br />
+              <h2 style={{ marginBottom: "2px" }}>
+                {this.state.selection.slice(0, 3) +
+                  "/" +
+                  this.state.selection.slice(3, 6)}
+              </h2>
+            </center>
+            <LiveGraph
+              selection={this.state.selection}
+              data={this.state.history}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 selector">
+            <div
+              className="row"
+              id="liveRates"
+              style={{ borderLeft: "2px solid cyan", margin: "5px" }}
+            >
+              <div className="col-sm-12"></div>
             </div>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

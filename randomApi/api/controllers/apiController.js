@@ -178,7 +178,7 @@ exports.fetchAll = function (req, res) {
   for (const key in temp) {
     if (temp.hasOwnProperty(key)) {
       if (key.slice(0, 3) != key.slice(3, 6)) {
-        temp[key] = (temp[key] + Math.random()).toPrecision(5);
+        temp[key] = (temp[key] + Math.random()).toFixed(5);
       }
     }
   }
@@ -196,15 +196,50 @@ exports.fetchPair = function (req, res) {
         responseVals[element] = (
           1 / dictionary[tempStr] +
           Math.random()
-        ).toPrecision(5);
+        ).toFixed(5);
       } else {
         responseVals[element] = 0;
       }
     } else {
       responseVals[String(element)] = (
         dictionary[element] + Math.random()
-      ).toPrecision(5);
+      ).toFixed(5);
     }
   });
   res.status(201).json(responseVals);
+};
+
+exports.fetchHistory = function (req, res) {
+  let data = req.params.data.split(",");
+  let response = [];
+  for (let i = Number(data[0]); i <= Number(data[1]); i += 86400000) {
+    let temp = {};
+    let tempDate = new Date(i);
+    temp["timestamp"] =
+      tempDate.getMonth() +
+      1 +
+      "/" +
+      tempDate.getDate() +
+      "/" +
+      tempDate.getFullYear();
+    temp["bestRate"] = (dictionary[data[2]] + Math.random(2)).toFixed(5);
+    temp["worstRate"] = (dictionary[data[2]] - Math.random(2)).toFixed(5);
+    response.push(temp);
+  }
+  console.log(response[0]);
+  res.status(200).json(response);
+};
+
+exports.fetchTopFour = function (req, res) {
+  const sorted = Object.entries(dictionary)
+    .sort(([, a], [, b]) => a - b)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+  let n = 166;
+  let i = 0;
+  let top = [];
+  for (const key in sorted) {
+    if (i >= n) top.push(key);
+    i++;
+  }
+  res.status(200).json(top);
 };

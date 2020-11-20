@@ -1,170 +1,20 @@
-"EUR" GBP
-"EUR" USD
-"GBP" USD
-"NZD" USD
-"USD" AED
-"USD" AFN
-"USD" ALL
-"USD" AMD
-"USD" ANG
-"USD" AOA
-"USD" ARS
-"USD" AUD
-"USD" AWG
-"USD" AZN
-"USD" BAM
-"USD" BBD
-"USD" BDT
-"USD" BGN
-"USD" BHD
-"USD" BIF
-"USD" BMD
-"USD" BND
-"USD" BOB
-"USD" BRL
-"USD" BSD
-"USD" BTN
-"USD" BWP
-"USD" BYN
-"USD" BYR
-"USD" BZD
-"USD" CAD
-"USD" CDF
-"USD" CHF
-"USD" CLP
-"USD" CNY
-"USD" COP
-"USD" CRC
-"AUD" USD
-"USD" CUC
-"USD" CUP
-"USD" CVE
-"USD" CZK
-"USD" DJF
-"USD" DKK
-"USD" DOP
-"USD" DZD
-"USD" EGP
-"USD" ERN
-"USD" ETB
-"USD" EUR
-"USD" FJD
-"USD" FKP
-"USD" GBP
-"USD" GEL
-"USD" GGP
-"USD" GHS
-"USD" GIP
-"USD" GMD
-"USD" GNF
-"USD" GTQ
-"USD" GYD
-"USD" HKD
-"USD" HNL
-"USD" HRK
-"USD" HTG
-"USD" HUF
-"USD" IDR
-"USD" ILS
-"USD" IMP
-"USD" INR
-"USD" IQD
-"USD" IRR
-"USD" ISK
-"USD" JEP
-"USD" JMD
-"USD" JOD
-"USD" JPY
-"USD" KES
-"USD" KGS
-"USD" KHR
-"USD" KMF
-"USD" KPW
-"USD" KRW
-"USD" KWD
-"USD" KYD
-"USD" KZT
-"USD" LAK
-"USD" LBP
-"USD" LKR
-"USD" LRD
-"USD" LSL
-"USD" LTL
-"USD" LVL
-"USD" LYD
-"USD" MAD
-"USD" MDL
-"USD" MGA
-"USD" MKD
-"USD" MMK
-"USD" MNT
-"USD" MOP
-"USD" MRO
-"USD" MUR
-"USD" MVR
-"USD" MWK
-"USD" MXN
-"USD" MYR
-"USD" MZN
-"USD" NAD
-"USD" NGN
-"USD" NIO
-"USD" NOK
-"USD" NPR
-"USD" NZD
-"USD" OMR
-"USD" PAB
-"USD" PEN
-"USD" PGK
-"USD" PHP
-"USD" PKR
-"USD" PLN
-"USD" PYG
-"USD" QAR
-"USD" RON
-"USD" RSD
-"USD" RUB
-"USD" RWF
-"USD" SAR
-"USD" SBD
-"USD" SCR
-"USD" SDG
-"USD" SEK
-"USD" SGD
-"USD" SHP
-"USD" SLL
-"USD" SOS
-"USD" SRD
-"USD" STD
-"USD" SVC
-"USD" SYP
-"USD" SZL
-"USD" THB
-"USD" TJS
-"USD" TMT
-"USD" TND
-"USD" TOP
-"USD" TRY
-"USD" TTD
-"USD" TWD
-"USD" TZS
-"USD" UAH
-"USD" UGX
-"USD" USD
-"USD" UYU
-"USD" UZS
-"USD" VEF
-"USD" VND
-"USD" VUV
-"USD" WST
-"USD" XAF
-"USD" XAG
-"USD" XAU
-"USD" XCD
-"USD" XDR
-"USD" XOF
-"USD" XPF
-"USD" YER
-"USD" ZAR
-"USD" ZMK
-"USD" ZMW
+{ timestamp: 1, bestRate: 1.79, worstRate: 200, spread: 10 },
+    { timestamp: 2, bestRate: 2.39, worstRate: 120, spread: 10 },
+    { timestamp: 3, bestRate: 1.37, worstRate: 150, spread: 10 },
+    { timestamp: 4, bestRate: 1.16, worstRate: 180, spread: 10 },
+    { timestamp: 5, bestRate: 2.29, worstRate: 200, spread: 10 },
+    { timestamp: 6, bestRate: 3, worstRate: 499, spread: 10 },
+    { timestamp: 7, bestRate: 0.53, worstRate: 50, spread: 10 },
+    { timestamp: 8, bestRate: 2.52, worstRate: 100, spread: 10 },
+    { timestamp: 9, bestRate: 1.79, worstRate: 200, spread: 10 },
+    { timestamp: 10, bestRate: 2.94, worstRate: 222, spread: 10 },
+    { timestamp: 11, bestRate: 4.3, worstRate: 210, spread: 10 },
+    { timestamp: 12, bestRate: 4.41, worstRate: 300, spread: 10 },
+    { timestamp: 13, bestRate: 2.1, worstRate: 50, spread: 10 },
+    { timestamp: 14, bestRate: 8, worstRate: 190, spread: 10 },
+    { timestamp: 15, bestRate: 0, worstRate: 300, spread: 10 },
+    { timestamp: 16, bestRate: 9, worstRate: 400, spread: 10 },
+    { timestamp: 17, bestRate: 3, worstRate: 200, spread: 10 },
+    { timestamp: 18, bestRate: 2, worstRate: 50, spread: 10 },
+    { timestamp: 19, bestRate: 3, worstRate: 100, spread: 10 },
+    { timestamp: 20, bestRate: 7, worstRate: 100, spread: 10 },

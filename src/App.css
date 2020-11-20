@@ -1,7 +1,10 @@
 .App {
   text-align: center;
 }
-
+body {
+  background-color: #1a2236;
+  color: white;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -47,4 +50,167 @@
 }
 .ratesListItem {
   list-style-type: none;
+}
+
+@import url(http://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css);
+
+.cont {
+  width: 200px;
+}
+
+.cont > .dropdown {
+  vertical-align: top;
+  border-radius: 5px;
+}
+
+.dropdown:before,
+.dropdown:after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 4px dashed;
+  border-color: #888888 transparent;
+  pointer-events: none;
+}
+
+.dropdown:before {
+  border-bottom-style: solid;
+  border-top: none;
+}
+
+.dropdown:after {
+  margin-top: 7px;
+  border-top-style: solid;
+  border-bottom: none;
+}
+
+.dropdown-select {
+  position: relative;
+  width: 130%;
+  margin: 0;
+  padding: 6px 8px 6px 10px;
+  height: 38px;
+  line-height: 14px;
+  font-size: 12px;
+  color: #62717a;
+  text-shadow: 0 1px white;
+  background: #f2f2f2; /* Fallback for IE 8 */
+  background: rgba(
+    0,
+    0,
+    0,
+    0
+  ) !important; /* "transparent" doesn't work with Opera */
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.dropdown-select:focus {
+  z-index: 3;
+  width: 100%;
+  color: white;
+  outline: 2px solid #49aff2;
+  outline: 2px solid -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.dropdown-select > option {
+  margin: 3px;
+  padding: 6px 8px;
+  text-shadow: none;
+  background: #f2f2f2;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Fix for IE 8 putting the arrows behind the select element. */
+
+.lt-ie9 .dropdown {
+  z-index: 1;
+}
+
+.lt-ie9 .dropdown-select {
+  z-index: -1;
+}
+
+.lt-ie9 .dropdown-select:focus {
+  z-index: 3;
+}
+
+/* Dirty fix for Firefox adding padding where it shouldn't. */
+
+@-moz-document url-prefix() {
+  .dropdown-select {
+    padding-left: 6px;
+  }
+}
+
+.dropdown-dark {
+  background: #202a43;
+  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.5));
+  background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.5));
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+}
+
+.dropdown-dark .dropdown-select {
+  color: white;
+  text-shadow: 0 1px black;
+}
+
+.dropdown-dark .dropdown-select:focus {
+  color: aliceblue;
+}
+
+.dropdown-dark .dropdown-select > option {
+  background: #1f2d43;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.selector {
+  background-color: #293755af;
+  border: 8px solid #202a43;
+  padding: 4px;
+}
+
+.rateDisplay {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  padding: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-bottom: 2px solid #24304b;
+  border-radius: 3px;
+}
+.rateDisplay:hover {
+  background-image: linear-gradient(
+    transparent,
+    transparent,
+    transparent,
+    #366fa563
+  );
+  border-bottom: 2px solid #3670a5;
+}
+.rateDisplay small {
+  font-size: 11px;
+}
+#liveRates {
+  background-color: #273656;
+}
+
+.header {
+  font-size: 25px;
+  margin: 5px;
+  padding: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+#ratesDisplay small {
+  font-size: 12px;
 }
