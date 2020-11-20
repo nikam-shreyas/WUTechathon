@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin,login_user, current_user, logout_user, login_required
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
@@ -56,24 +57,34 @@ def func_name():
     fx_name = request.form['fx_name']
     password = request.form['password']
     confirm_password = request.form['confirm_password']
+    if password != confirm_password:
+        return ({"error":"Passwords do not match"})
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    user = User(name=name,email=email,fx_name=fx_name, password=hashed_password)
-    db.session.add(user)
-    db.session.commit()
+    try:
+        user = User(name=name,email=email,fx_name=fx_name, password=hashed_password)
+        db.session.add(user)    
+        db.session.commit()
+    except IntegrityError:
+        print(IntegrityError)
+        db.session.rollback()
+        return jsonify({"error":"This user already exists"})
 
-    return redirect("http://localhost:3000")
+    return ({"msg":"Registration successful"})
 
 @app.route('/login',methods=['POST'])
 def login():
     email = request.form['email']
     password = request.form['password']
     
+
     user = User.query.filter_by(email = email).first()
-    if user and bcrypt.check_password_hash(user.password, password):
+    if not user:
+        return {"error":"User does not exist"}
+    elif bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        return "Login successful"
+        return {"msg":"Login successful"}
     else:
-        return "Login unsuccessful"
+        return {"error":"Incorrect username or password"}
     return redirect("http://localhost:3000")
 
 @app.route('/users', methods=['GET'])
