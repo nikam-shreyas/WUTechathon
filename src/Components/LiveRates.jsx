@@ -17,7 +17,7 @@ class LiveRates extends Component {
   fetchRates() {
     setInterval(() => {
       fetch(
-        "http://localhost:3001/getPair/" +
+        "http://localhost:3003/getPair/" +
           this.state.topFour[0] +
           "," +
           this.state.topFour[1] +
@@ -41,10 +41,10 @@ class LiveRates extends Component {
           this.setState({ rates: temp });
           this.setState({ isLoaded: true });
         });
-    }, 3000);
+    }, 15000);
   }
   componentDidMount() {
-    fetch("http://localhost:3001/getTop")
+    fetch("http://localhost:3003/getTop")
       .then((res) => res.json())
       .then((res) => {
         this.setState({ topFour: res });
