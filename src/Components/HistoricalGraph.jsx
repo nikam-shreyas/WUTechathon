@@ -12,6 +12,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import React, { Component } from "react";
+import { FaDownload } from "react-icons/fa";
+import list from "../Helper/List";
 
 const initialState = {
   data: [
@@ -53,20 +55,17 @@ const initialState = {
 class HistoricalGraph extends Component {
   constructor(props) {
     super(props);
-    this.setState({ selection: props.selection });
     this.state = initialState;
     this.fetchData = this.fetchData.bind(this);
-    this.zoom = this.zoom.bind(this);
-    this.zoomOut = this.zoomOut.bind(this);
     this.getAxisYDomain = this.getAxisYDomain.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
+    this.handleSelectionChange = this.handleSelectionChange.bind(this);
+    this.downloadData = this.downloadData.bind(this);
+    this.JSON2CSV = this.JSON2CSV.bind(this);
   }
   componentDidMount() {
     this.fetchData();
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({ selection: nextProps.selection });
   }
   getAxisYDomain = (from, to, ref, offset) => {
     let tempfrom =
@@ -87,47 +86,6 @@ class HistoricalGraph extends Component {
     return [(bottom | 0) - offset, (top | 0) + offset];
   };
 
-  zoom() {
-    let { refAreaLeft, refAreaRight, data } = this.state;
-
-    if (refAreaLeft === refAreaRight || refAreaRight === "") {
-      this.setState(() => ({
-        refAreaLeft: "",
-        refAreaRight: "",
-      }));
-      return;
-    }
-
-    // xAxis domain
-    if (refAreaLeft > refAreaRight)
-      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-
-    // yAxis domain
-    const [bottom, top] = this.getAxisYDomain(
-      refAreaLeft,
-      refAreaRight,
-      "bestRate",
-      1
-    );
-    const [bottom2, top2] = this.getAxisYDomain(
-      refAreaLeft,
-      refAreaRight,
-      "worstRate",
-      20
-    );
-
-    this.setState(() => ({
-      refAreaLeft: "",
-      refAreaRight: "",
-      data: this.state.data.slice(),
-      left: refAreaLeft,
-      right: refAreaRight,
-      bottom,
-      top,
-      bottom2,
-      top2,
-    }));
-  }
   handleFromDateChange(event) {
     this.setState({ fromDate: new Date(event.target.value).getTime() });
   }
@@ -135,20 +93,7 @@ class HistoricalGraph extends Component {
   handleToDateChange(event) {
     this.setState({ toDate: new Date(event.target.value).getTime() });
   }
-  zoomOut() {
-    const { data } = this.state;
-    this.setState(() => ({
-      data: data.slice(),
-      refAreaLeft: "",
-      refAreaRight: "",
-      left: "dataMin",
-      right: "dataMax",
-      top: "dataMax+1",
-      bottom: "dataMin",
-      top2: "dataMax+50",
-      bottom: "dataMin+50",
-    }));
-  }
+
   fetchData() {
     fetch(
       "http://localhost:3001/getHistory/" +
@@ -159,10 +104,73 @@ class HistoricalGraph extends Component {
         this.state.selection
     )
       .then((res) => res.json())
-      .then((res) => this.setState({ data: res }))
-      .then(console.log(this.state.data));
+      .then((res) => this.setState({ data: res }));
   }
 
+  handleSelectionChange(selection) {
+    this.setState({ selection: selection["e"] });
+    this.fetchData();
+  }
+  JSON2CSV(objArray) {
+    var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
+    var str = "";
+    var line = "";
+
+    if (true) {
+      var head = array[0];
+      if (true) {
+        for (var index in array[0]) {
+          var value = index + "";
+          line += '"' + value.replace(/"/g, '""') + '",';
+        }
+      } else {
+        for (var index in array[0]) {
+          line += index + ",";
+        }
+      }
+
+      line = line.slice(0, -1);
+      str += line + "\r\n";
+    }
+
+    for (var i = 0; i < array.length; i++) {
+      var line = "";
+
+      if (true) {
+        for (var index in array[i]) {
+          var value = array[i][index] + "";
+          line += '"' + value.replace(/"/g, '""') + '",';
+        }
+      } else {
+        for (var index in array[i]) {
+          line += array[i][index] + ",";
+        }
+      }
+
+      line = line.slice(0, -1);
+      str += line + "\r\n";
+    }
+    return str;
+  }
+  downloadData() {
+    var json = this.state.data;
+    var csv = this.JSON2CSV(json);
+    var downloadLink = document.createElement("a");
+    var blob = new Blob(["\ufeff", csv]);
+    var url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download =
+      this.state.selection +
+      "_" +
+      this.state.fromDate +
+      "_" +
+      this.state.toDate +
+      ".csv";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
   render() {
     const {
       data,
@@ -179,39 +187,103 @@ class HistoricalGraph extends Component {
 
     return (
       <div className="container">
-        <center>
-          {this.state.selection.slice(0, 3) +
-            "/" +
-            this.state.selection.slice(3, 6)}
-        </center>
-        <div className="container-fluid">
+        <div className="historical-header">
+          <div className="row">
+            <div className="col-sm-2">
+              <button
+                className="btn btn-secondary btn-sm dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {this.state.selection.slice(0, 3) +
+                  "/" +
+                  this.state.selection.slice(3, 6) +
+                  " "}
+              </button>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+              >
+                {list.map((e) => (
+                  <a
+                    className="dropdown-item"
+                    onClick={() => {
+                      this.handleSelectionChange({ e });
+                    }}
+                  >
+                    {e}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="col-sm-10">
+              <small
+                style={{
+                  float: "right",
+                  cursor: "pointer",
+                  marginTop: "4px",
+                  left: "10px",
+                }}
+              >
+                <FaDownload
+                  size={15}
+                  fill="#17A2B8"
+                  onClick={this.downloadData}
+                />
+              </small>
+              <small style={{ fontSize: "12px", float: "right" }}>
+                {" "}
+                From{" "}
+                <input
+                  type="date"
+                  name="fromDate"
+                  className="form-control"
+                  onChange={this.handleFromDateChange}
+                />{" "}
+                To{" "}
+                <input
+                  type="date"
+                  name="toDate"
+                  className="form-control"
+                  onChange={this.handleToDateChange}
+                />
+                <button
+                  className="btn btn-sm btn-outline-info ml-2"
+                  style={{
+                    padding: "1px",
+                    paddingLeft: "3px",
+                    paddingRight: "3px",
+                    marginRight: "18px",
+                    fontSize: "12px",
+                  }}
+                  onClick={this.fetchData}
+                >
+                  Fetch Data
+                </button>
+              </small>
+            </div>
+          </div>
+        </div>
+        <div className="container-fluid mt-2">
           <ResponsiveContainer width="100%" height={250}>
-            <LineChart
-              width={800}
-              height={250}
-              data={this.state.data}
-              onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
-              onMouseMove={(e) =>
-                this.state.refAreaLeft &&
-                this.setState({ refAreaRight: e.activeLabel })
-              }
-              onMouseUp={this.zoom.bind(this)}
-            >
+            <LineChart width={800} height={250} data={this.state.data}>
               <XAxis
                 allowDataOverflow
                 dataKey="timestamp"
                 domain={[left, right]}
                 type="category"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
               />
               <YAxis
                 allowDataOverflow
                 domain={[bottom, top]}
                 yAxisId="1"
-                tick={{ fontSize: 8 }}
+                tick={{ fontSize: 8, fill: "white" }}
               />
               <Tooltip />
-              <Legend />
               <CartesianGrid strokeDasharray="3 3" />
               <Line
                 yAxisId="1"
@@ -239,26 +311,7 @@ class HistoricalGraph extends Component {
               ) : null}
             </LineChart>
           </ResponsiveContainer>
-          <a
-            href="javascript: void(0);"
-            style={{ float: "right" }}
-            className="btn btn-outline-secondary btn-sm"
-            onClick={this.zoomOut.bind(this)}
-          >
-            Zoom Out
-          </a>
           <br />
-          From{" "}
-          <input
-            type="date"
-            name="fromDate"
-            onChange={this.handleFromDateChange}
-          />{" "}
-          To{" "}
-          <input type="date" name="toDate" onChange={this.handleToDateChange} />
-          <button className="btn btn-sm ml-2 btn-info" onClick={this.fetchData}>
-            Fetch Data
-          </button>
         </div>
       </div>
     );
