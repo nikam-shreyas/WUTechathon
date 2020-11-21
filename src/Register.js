@@ -68,7 +68,7 @@ class Register extends Component {
                     <label  style={{padding:"10px"}}>Email address</label>                    
         < input name="email" className="form-control" 
           
-          type="email" minlength = "4" pattern = "^[a-zA-Z0-9_.-]*$"
+          type="email" minlength = "4" 
           placeholder="Email Address"  required
           
         /></div>
