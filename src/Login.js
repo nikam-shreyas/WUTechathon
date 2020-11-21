@@ -21,7 +21,7 @@ class Login extends Component {
     return (
         <div className="wrapper">
       <div className="con1">
-      <form  id="Login">
+      <form  id="Login" method="POST" action="http://localhost:5000/login">
         <h1>Login</h1>
         <br />
          <div className="form-group ">
