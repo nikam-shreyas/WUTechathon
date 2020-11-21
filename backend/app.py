@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+freeforexSupportedPairs = ["AUDUSD","EURGBP","EURUSD","GBPUSD","NZDUSD","USDAED","USDAFN","USDALL","USDAMD","USDANG","USDAOA","USDARS","USDATS","USDAUD","USDAWG","USDAZM","USDAZN","USDBAM","USDBBD","USDBDT","USDBEF","USDBGN","USDBHD","USDBIF","USDBMD","USDBND","USDBOB","USDBRL","USDBSD","USDBTN","USDBWP","USDBYN","USDBYR","USDBZD","USDCAD","USDCDF","USDCHF","USDCLP","USDCNH","USDCNY","USDCOP","USDCRC","USDCUC","USDCUP","USDCVE","USDCYP","USDCZK","USDDEM","USDDJF","USDDKK","USDDOP","USDDZD","USDEEK","USDEGP","USDERN","USDESP","USDETB","USDEUR","USDFIM","USDFJD","USDFKP","USDFRF","USDGBP","USDGEL","USDGGP","USDGHC","USDGHS","USDGIP","USDGMD","USDGNF","USDGRD","USDGTQ","USDGYD","USDHKD","USDHNL","USDHRK","USDHTG","USDHUF","USDIDR","USDIEP","USDILS","USDIMP","USDINR","USDIQD","USDIRR","USDISK","USDITL","USDJEP","USDJMD","USDJOD","USDJPY","USDKES","USDKGS","USDKHR","USDKMF","USDKPW","USDKRW","USDKWD","USDKYD","USDKZT","USDLAK","USDLBP","USDLKR","USDLRD","USDLSL","USDLTL","USDLUF","USDLVL","USDLYD","USDMAD","USDMDL","USDMGA","USDMGF","USDMKD","USDMMK","USDMNT","USDMOP","USDMRO","USDMRU","USDMTL","USDMUR","USDMVR","USDMWK","USDMXN","USDMYR","USDMZM","USDMZN","USDNAD","USDNGN","USDNIO","USDNLG","USDNOK","USDNPR","USDNZD","USDOMR","USDPAB","USDPEN","USDPGK","USDPHP","USDPKR","USDPLN","USDPTE","USDPYG","USDQAR","USDROL","USDRON","USDRSD","USDRUB","USDRWF","USDSAR","USDSBD","USDSCR","USDSDD","USDSDG","USDSEK","USDSGD","USDSHP","USDSIT","USDSKK","USDSLL","USDSOS","USDSPL","USDSRD","USDSRG","USDSTD","USDSTN","USDSVC","USDSYP","USDSZL","USDTHB","USDTJS","USDTMM","USDTMT","USDTND","USDTOP","USDTRL","USDTRY","USDTTD","USDTVD","USDTWD","USDTZS","USDUAH","USDUGX","USDUSD","USDUYU","USDUZS","USDVAL","USDVEB","USDVEF","USDVES","USDVND","USDVUV","USDWST","USDXAF","USDXAG","USDXAU","USDXBT","USDXCD","USDXDR","USDXOF","USDXPD","USDXPF","USDXPT","USDYER","USDZAR","USDZMK","USDZMW","USDZWD"]
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -86,21 +86,31 @@ def get_exchrate():
     x = requests.get(string)
     rates = x.json().get('rates')
     rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
-    print("rates",rates)
     str2 = "https://www.freeforexapi.com/api/live?pairs="
     for rate in rates:
-        str2+=base+rate+","
-    print("str2", str2)
+        if base+rate in freeforexSupportedPairs:
+            str2+=base+rate+","
     str2=str2[:-1]
     frates = requests.get(str2)
     frates = frates.json().get('rates')
-    print("frates",frates)
     response={}
+    print(frates)
     for rate in rates:
-        response[rate]={}
-        response[rate]["exchangerate"]=rates[rate]
-    for rate in frates:
-        response[rate[3:]]["freeforex"]=frates[rate]['rate']
+        response[rate]=[]
+        response[rate].append({"exchangerate":rates[rate]})
+    print(response)
+    if frates is not None:
+        fratesKey = frates.keys()
+        fratesKey = [f[3:] for f in frates]
+        print(fratesKey)
+        for rate in fratesKey:
+            response[rate].append({"freeforex":frates[base+rate]["rate"]})
+        for rate in rates:
+            if rate not in fratesKey:
+                response[rate].append({"freeforex":"Not supported"})
+    else:
+        for rate in rates:
+            response[rate].append({"freeforex":"Not supported"})
     list1 = list(response.items())
     return {"resp":list1}
 
