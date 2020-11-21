@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin,login_user, current_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
-import operator
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
@@ -37,11 +37,11 @@ class User(db.Model, UserMixin):
 
 @app.route('/register',methods=['POST'])
 def func_name():
-    name = request.form['name']
+    name = request.form['username']
     email = request.form['email']
-    fx_name = request.form['fx_name']
-    password = request.form['password']
-    confirm_password = request.form['confirm_password']
+    fx_name = request.form['fxprovider']
+    password = request.form['passwordOne']
+    confirm_password = request.form['passwordTwo']
     if password != confirm_password:
         return ({"error":"Passwords do not match"})
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')

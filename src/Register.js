@@ -40,7 +40,7 @@ class Register extends Component {
     return (
       <div className="wrapper">
       <div className="con2">
-      <form id="Register">
+      <form id="Register" method="POST" action="http://localhost:5000/register">
         <h2 style={{fontSize:"40px",alignSelf:"center"}}>Register</h2>
         <div className="form-group ">
                     <label  style={{padding:"10px"}}>Full Name</label>
@@ -88,7 +88,7 @@ class Register extends Component {
           type="password"
           placeholder="Confirm Password"
         /></div><br/>
-        <button disabled={isInvalid}  className="btn btn-primary btn-block" type="submit">
+        <button className="btn btn-primary btn-block" type="submit">
          Register
         </button><br/>
         {error && <p>{error.message}</p>}
