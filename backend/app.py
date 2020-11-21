@@ -94,23 +94,20 @@ def get_exchrate():
     frates = requests.get(str2)
     frates = frates.json().get('rates')
     response={}
-    print(frates)
     for rate in rates:
         response[rate]=[]
         response[rate].append({"exchangerate":rates[rate]})
-    print(response)
     if frates is not None:
         fratesKey = frates.keys()
         fratesKey = [f[3:] for f in frates]
-        print(fratesKey)
         for rate in fratesKey:
             response[rate].append({"freeforex":frates[base+rate]["rate"]})
         for rate in rates:
             if rate not in fratesKey:
-                response[rate].append({"freeforex":"Not supported"})
+                response[rate].append({"freeforex":"_"})
     else:
         for rate in rates:
-            response[rate].append({"freeforex":"Not supported"})
+            response[rate].append({"freeforex":"_"})
     list1 = list(response.items())
     return {"resp":list1}
 
