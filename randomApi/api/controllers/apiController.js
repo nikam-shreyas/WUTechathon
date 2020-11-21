@@ -228,9 +228,7 @@ exports.fetchHistory = function (req, res) {
   }
   res.status(200).json(response);
 };
-function fetchLiveRates() {
-  console.log("Hello");
-}
+
 exports.fetchTopFour = function (req, res) {
   const sorted = Object.entries(dictionary)
     .sort(([, a], [, b]) => a - b)
@@ -244,4 +242,5 @@ exports.fetchTopFour = function (req, res) {
   }
   res.status(200).json(top);
 };
+function fetchLiveRates() {}
 fetchLiveRates();
