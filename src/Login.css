@@ -1,0 +1,42 @@
+body {
+    background-color: #1a2236;
+    color: white;
+  }
+#Login{
+    margin: 0;
+    background: #293755af;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 50px 20px;
+    border-radius: 2%;
+
+}
+
+#Login button:hover
+{
+    cursor: pointer;
+    background: #0f1333;
+    color: #fff;
+}
+
+#Login h1{
+    text-align: center;
+}
+.wrapper{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  }
+  

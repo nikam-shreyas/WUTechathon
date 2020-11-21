@@ -1,0 +1,72 @@
+body {
+  background-color: #1a2236;
+  color: white;
+}
+#Register{
+    margin: 0;
+    background: #293755af;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 700px;
+    height: 700px;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 50px 50px;
+    border-radius: 2%;
+
+}
+
+#Register h2{
+  text-align: center;
+}
+
+#Register h1{
+    text-align: center;
+}
+#Register button:hover
+{
+    cursor: pointer;
+    background:#0f1333;
+    color: #fff;
+}
+#Register p{
+    text-align: center;
+}
+
+#Register span{
+    width: 300px;
+}
+
+.row{
+    flex-direction: row;
+  }
+  .col6{
+    flex-direction: column;
+    width: 50%;
+  }
+  .col12{
+    flex-direction: column;
+    width: 100%;
+  }
+  .col1{
+    flex-direction: column;
+    width: 8.333333%;
+  }
+  .col2{
+    flex-direction: column;
+    width: 16.666667%;
+  }
+  .col3{
+    flex-direction: column;
+    width: 25%;
+  }
+  .col4{
+    flex-direction: column;
+    width: 33.333333%;
+  }
+  .col10{
+    flex-direction: column;
+    width: 83.333333%;
+  }

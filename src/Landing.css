@@ -1,0 +1,47 @@
+body {
+    background-color: #1a2236;
+    color: white;
+  }
+#hd{
+    font-size: 40px;
+      margin-top: 120px;
+      margin-left: 100px;
+  
+  }
+  
+  .wrapper{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  }
+  .Button1{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .Button2{
+    margin: 0;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .con {
+    height: 500px;
+    width: 500px;
+
+    background: #293755af;
+    display: flex;
+  
+  }
+ 
