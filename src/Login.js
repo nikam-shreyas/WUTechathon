@@ -20,28 +20,28 @@ class Login extends Component {
     const isInvalid = password === '' || email === '';
     return (
         <div className="wrapper">
-      <div className="con">
-      <form onSubmit={this.onSubmit} id="Login" >
+      <div className="con1">
+      <form  id="Login">
         <h1>Login</h1>
         <br />
          <div className="form-group ">
-                    <label>Email address</label>
+                    <label style={{padding:"10px"}}>Email address</label>
         <input
-          name="email" className="form-control"  value={email}
-          onChange={this.onChange}
+          name="email" className="form-control" 
+          
           type="text"
           placeholder="Email Address"
         /></div><br/>
          <div className="form-group">
-                    <label>Password</label>
+                    <label  style={{padding:"10px"}}>Password</label>
         <input
           name="password" className="form-control"
-          value={password}
-          onChange={this.onChange}
+         
+          
           type="password"
           placeholder="Password"
         /></div><br/>
-        <button disabled={isInvalid}  className="btn btn-primary btn-block" type="submit">
+        <button   className="btn btn-primary btn-block" type="submit">
           Login
         </button>
         <br/> 

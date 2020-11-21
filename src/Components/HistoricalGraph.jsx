@@ -240,14 +240,14 @@ class HistoricalGraph extends Component {
                 <input
                   type="date"
                   name="fromDate"
-                  className="form-control"
+                  className="form-control1"
                   onChange={this.handleFromDateChange}
                 />{" "}
                 To{" "}
                 <input
                   type="date"
                   name="toDate"
-                  className="form-control"
+                  className="form-control1"
                   onChange={this.handleToDateChange}
                 />
                 <button

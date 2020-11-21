@@ -38,54 +38,53 @@ class Register extends Component {
       username === '';
 	  
     return (
+      <div className="wrapper">
+      <div className="con2">
       <form id="Register">
         <h2 style={{fontSize:"40px",alignSelf:"center"}}>Register</h2>
         <div className="form-group ">
-                    <label>Full Name</label>
+                    <label  style={{padding:"10px"}}>Full Name</label>
 	  <input
           name="username" className="form-control"
-          value={username}
-          onChange={this.onChange}
+          
+          
           type="text"
           placeholder="Full Name"
         /></div>
 
 
       <div className="form-group ">
-                    <label>Fx Provider Name</label>                    
+                    <label  style={{padding:"10px"}}>Fx Provider Name</label>                    
         <input
           name="fxprovider" className="form-control"
-          value={fxprovider}
-          onChange={this.onChange}
+          
+         
           type="text"
           
           placeholder="Fx Provider Name "
         /></div>
 
         <div className="form-group ">
-                    <label>Email address</label>                    
+                    <label  style={{padding:"10px"}}>Email address</label>                    
         <input
           name="email" className="form-control"
-          value={email}
-          onChange={this.onChange}
+          
           type="text"
           placeholder="Email Address"
         /></div>
         <div className="form-group ">
-                    <label>Password</label>
+                    <label  style={{padding:"10px"}}>Password</label>
         <input
           name="passwordOne" className="form-control"
-          value={passwordOne}
-          onChange={this.onChange}
+          
           type="password"
           placeholder="Password"
         /></div>
         <div className="form-group ">
-                    <label>Confirm Password</label>
+                    <label  style={{padding:"10px"}}>Confirm Password</label>
         <input
           name="passwordTwo" className="form-control"
-          value={passwordTwo}
-          onChange={this.onChange}
+      
           type="password"
           placeholder="Confirm Password"
         /></div><br/>
@@ -95,6 +94,8 @@ class Register extends Component {
         {error && <p>{error.message}</p>}
 	  
       </form>
+      </div>
+      </div>
     );
   }
 }

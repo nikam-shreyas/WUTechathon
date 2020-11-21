@@ -8,16 +8,24 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: 450px;
     margin-right: -50%;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
-    padding: 50px 20px;
+    padding: 50px 50px;
     border-radius: 2%;
 
 }
+.con1 {
+    height: 400px;
+    width: 400px;
 
+    background: #293755af;
+    display: flex;
+  
+  }
+ 
 #Login button:hover
 {
     cursor: pointer;

@@ -244,7 +244,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-.form-control {
+.form-control1 {
   background-color: transparent;
   width: 105px;
   display: inline;
@@ -254,7 +254,7 @@ body {
   font-size: 12px;
   padding: 0px;
 }
-.form-control:focus {
+.form-control1:focus {
   background-color: transparent;
   color: white;
 }
