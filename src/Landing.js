@@ -14,7 +14,7 @@ class Landing extends Component{
       FXSimplified</h1>
       <div className="Button1">
       <Link to={ROUTES.LOGIN}><button className="btn btn-primary btn-mb2" id="log" style={{color: "aliceblue",
-    width:"150px",
+    width:"180px",
     height:"50px",
     }} >
         
@@ -24,8 +24,8 @@ class Landing extends Component{
 <br />
 <div className="Button2">
   <Link to={ROUTES.REGISTER}><button  id="reg" className="btn btn-primary btn-block" style={{color: "aliceblue",
-    width:"150px",
-    height:"60px",
+    width:"180px",
+    height:"50px",
    }} >
    User Registration
   </button></Link>
