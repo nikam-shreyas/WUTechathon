@@ -5,8 +5,6 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Legend,
   Tooltip,
 } from "recharts";
 class LiveGraph extends Component {
@@ -23,7 +21,7 @@ class LiveGraph extends Component {
   }
   fetchData() {
     setInterval(() => {
-      let urlLink = "http://localhost:3001/getPair/" + this.props.selection;
+      let urlLink = "http://localhost:3003/getPair/" + this.props.selection;
       fetch(urlLink)
         .then((res) => res.json())
         .then((res) => {
@@ -43,7 +41,7 @@ class LiveGraph extends Component {
             ],
           }));
         });
-    }, 2000);
+    }, 15000);
   }
   componentDidMount() {
     this.fetchData();
@@ -75,7 +73,6 @@ class LiveGraph extends Component {
             <XAxis dataKey="name" allowDataOverflow tick={{ fontSize: 10 }} />
             <YAxis domain={["auto", "auto"]} tick={{ fontSize: 10 }} />
             <Tooltip />
-            <Legend />
             <Area
               type="monotone"
               dataKey="value"

@@ -4,28 +4,21 @@ import Selector from "./Components/Selector";
 import { FcLineChart } from "react-icons/fc";
 import HistoricalGraph from "./Components/HistoricalGraph";
 import LiveRates from "./Components/LiveRates";
-import Convertor from "./Convertor";
-import Temp from "./Temp";
+import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
 class App extends Component {
   state = {
     selection: "USDINR",
     history: "",
-
-    updateRate: "danger",
   };
 
   constructor(props) {
     super(props);
-    this.changeText = this.changeText.bind(this);
     this.setSelection = this.setSelection.bind(this);
-  }
-  changeText() {
-    this.setState({ text: Math.random() });
   }
   fetchRates() {
     setInterval(() => {
-      let urlLink = "http://localhost:3001/getPair/" + this.state.selection;
+      let urlLink = "http://localhost:3003/getPair/" + this.state.selection;
       fetch(urlLink)
         .then((res) => res.json())
         .then((res) => {
@@ -36,7 +29,7 @@ class App extends Component {
           }
           this.setState({ history: res[this.state.selection] });
         });
-    }, 5000);
+    }, 15000);
   }
   setSelection() {
     this.setState({ selection: document.getElementById("selector").value });
@@ -65,34 +58,7 @@ class App extends Component {
           </div>
 
           <div className="col-sm-4 selector">
-            <p
-              id="ratesDisplay"
-              style={{ marginTop: "5px", marginBottom: "5px" }}
-            >
-              <small className="text-sm text-muted">RandomApi </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-right text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-              <br />
-              <small className="text-sm text-muted">LProvider </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-right text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-              <br />
-              <small className="text-sm text-muted">ExchangeRatesApi </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-            </p>
+            <News />
           </div>
         </div>
         <div className="row ">
@@ -126,15 +92,37 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-12 selector">
-            <div
-              className="row"
-              id="liveRates"
-              style={{ borderLeft: "2px solid cyan", margin: "5px" }}
+          <div className="col-sm-4 selector">
+            <p
+              id="ratesDisplay"
+              style={{ marginTop: "5px", marginBottom: "5px" }}
             >
-              <div className="col-sm-12"></div>
-            </div>
+              <small className="text-sm text-muted">RandomApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">LProvider </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">ExchangeRatesApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+            </p>
           </div>
+          <div className="col-sm-8"></div>
         </div>
       </div>
     );

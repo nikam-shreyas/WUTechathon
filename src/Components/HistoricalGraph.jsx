@@ -96,7 +96,7 @@ class HistoricalGraph extends Component {
 
   fetchData() {
     fetch(
-      "http://localhost:3001/getHistory/" +
+      "http://localhost:3003/getHistory/" +
         this.state.fromDate +
         "," +
         this.state.toDate +

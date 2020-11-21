@@ -226,10 +226,11 @@ exports.fetchHistory = function (req, res) {
     temp["worstRate"] = (dictionary[data[2]] - Math.random(2)).toFixed(5);
     response.push(temp);
   }
-  console.log(response[0]);
   res.status(200).json(response);
 };
-
+function fetchLiveRates() {
+  console.log("Hello");
+}
 exports.fetchTopFour = function (req, res) {
   const sorted = Object.entries(dictionary)
     .sort(([, a], [, b]) => a - b)
@@ -243,3 +244,4 @@ exports.fetchTopFour = function (req, res) {
   }
   res.status(200).json(top);
 };
+fetchLiveRates();
