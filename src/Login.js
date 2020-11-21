@@ -21,6 +21,7 @@ class Login extends Component {
     return (
         <div className="wrapper">
       <div className="con1">
+        <div className="l_con">
       <form  id="Login">
         <h1>Login</h1>
         <br />
@@ -29,8 +30,8 @@ class Login extends Component {
         <input
           name="email" className="form-control" 
           
-          type="text"
-          placeholder="Email Address"
+          type="email" minlength = "4" pattern = "^[a-zA-Z0-9_.-]*$"
+          placeholder="Email Address"  required 
         /></div><br/>
          <div className="form-group">
                     <label  style={{padding:"10px"}}>Password</label>
@@ -39,7 +40,7 @@ class Login extends Component {
          
           
           type="password"
-          placeholder="Password"
+          placeholder="Password"  required minlength = "6"
         /></div><br/>
         <button   className="btn btn-primary btn-block" type="submit">
           Login
@@ -47,6 +48,7 @@ class Login extends Component {
         <br/> 
         {error && <p>{error.message}</p>}
       </form>
+      </div>
       </div>
       </div>
     );

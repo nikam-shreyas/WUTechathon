@@ -9,6 +9,7 @@ class Landing extends Component{
         return(
             <div className="main">
                  <div className="wrapper">
+                 <div className="o_con">
             <div className="con">
         <h1 id="hd"><FcLineChart />
       FXSimplified</h1>
@@ -32,7 +33,7 @@ class Landing extends Component{
   </div>
     </div>
   </div>
-                
+         </div>       
                 
             </div>
         )

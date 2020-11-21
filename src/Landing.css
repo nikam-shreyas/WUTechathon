@@ -15,6 +15,7 @@ body {
     align-items: center;
     justify-content: center;
     position: absolute;
+    
 	top:0;
 	bottom: 0;
 	left: 0;
@@ -31,7 +32,7 @@ body {
   .Button2{
     margin: 0;
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -39,9 +40,19 @@ body {
   .con {
     height: 400px;
     width: 400px;
-
+    
     background: #293755af;
     display: flex;
   
   }
+ .o_con{
+  height: 450px;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: #293755af;
+    display: flex;
+ }
  
