@@ -49,7 +49,7 @@ const initialState = {
   animation: true,
   fromDate: new Date("11/1/2020").getTime(),
   toDate: new Date().getTime(),
-  selection: "USDINR",
+  selection: "EUR",
 };
 
 class HistoricalGraph extends Component {
@@ -96,7 +96,7 @@ class HistoricalGraph extends Component {
 
   fetchData() {
     fetch(
-      "http://localhost:3003/getHistory/" +
+      "http://localhost:5000/getHistory/" +
         this.state.fromDate +
         "," +
         this.state.toDate +

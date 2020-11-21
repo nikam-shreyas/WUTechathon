@@ -9,7 +9,7 @@ import {
 } from "recharts";
 class LiveGraph extends Component {
   state = {
-    selection: "EURGBP",
+    selection: "EUR",
     history: [{ name: "", value: 0.0 }],
   };
   constructor(props) {
@@ -21,7 +21,7 @@ class LiveGraph extends Component {
   }
   fetchData() {
     setInterval(() => {
-      let urlLink = "http://localhost:3003/getPair/" + this.props.selection;
+      let urlLink = "http://localhost:5000/getPair/" + this.props.selection;
       fetch(urlLink)
         .then((res) => res.json())
         .then((res) => {

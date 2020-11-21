@@ -8,7 +8,7 @@ import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
 class App extends Component {
   state = {
-    selection: "USDINR",
+    selection: "EUR",
     history: "",
   };
 
@@ -18,7 +18,7 @@ class App extends Component {
   }
   fetchRates() {
     setInterval(() => {
-      let urlLink = "http://localhost:3003/getPair/" + this.state.selection;
+      let urlLink = "http://localhost:5000/getPair/" + this.state.selection;
       fetch(urlLink)
         .then((res) => res.json())
         .then((res) => {
