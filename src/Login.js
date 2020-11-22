@@ -30,7 +30,7 @@ class Login extends Component {
         <input
           name="email" className="form-control" 
           
-          type="email" minlength = "4" pattern = "^[a-zA-Z0-9_.-]*$"
+          type="email" minlength = "4" 
           placeholder="Email Address"  required 
         /></div><br/>
          <div className="form-group">
