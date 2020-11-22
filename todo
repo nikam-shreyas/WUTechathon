@@ -1,0 +1,5 @@
+fetch historical rates from exchangeratesapi and store in db
+compute best and worst rates for a given time duration on historical rates
+compute best and worst rates on live data
+add more apis
+make randomapi in flask
