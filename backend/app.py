@@ -6,7 +6,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin,login_user, current_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -43,7 +42,7 @@ def func_name():
     password = request.form['passwordOne']
     confirm_password = request.form['passwordTwo']
     if password != confirm_password:
-        return ({"error":"Passwords do not match"})
+        return redirect("http://localhost:3000/Register")
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     try:
         user = User(name=name,email=email,fx_name=fx_name, password=hashed_password)
@@ -52,9 +51,9 @@ def func_name():
     except IntegrityError:
         print(IntegrityError)
         db.session.rollback()
-        return jsonify({"error":"This user already exists"})
+        return redirect("http://localhost:3000/Register")
 
-    return ({"msg":"Registration successful"})
+    return redirect("http://localhost:3000/Login")
 
 @app.route('/login',methods=['POST'])
 def login():
@@ -64,13 +63,13 @@ def login():
 
     user = User.query.filter_by(email = email).first()
     if not user:
-        return {"error":"User does not exist"}
+        return redirect("http://localhost:3000")
     elif bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        return {"msg":"Login successful"}
+        return redirect("http://localhost:3000/App")
     else:
-        return {"error":"Incorrect username or password"}
-    return redirect("http://localhost:3000")
+        return redirect("http://localhost:3000")
+    return redirect("http://localhost:3000/App")
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -110,6 +109,34 @@ def get_exchrate():
             response[rate].append({"freeforex":"_"})
     list1 = list(response.items())
     return {"resp":list1}
+
+@app.route('/history')
+def historical_rates():
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    base = request.args.get('base')
+    quote= request.args.get('quote')
+    apiStr = f"https://api.exchangeratesapi.io/history?start_at={start_date}&end_at={end_date}&base={base}&symbols={quote}"
+    x = requests.get(apiStr)
+    if(x.json().get('error')):
+        return {"error":"symbols not supported"}
+    rates = x.json().get('rates')
+    rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
+    print(rates)
+    newlist=[]
+    Maxx = -1
+    Min = 99999
+    for rate in rates:
+        q = rates[rate][quote]
+        if q<Min:
+            Min=q
+        if q>Maxx:
+            Maxx=q
+        newlist.append({rate:q})
+    return {"list":newlist, "max_rate":Maxx, "min_rate":Min}
+    
+
+
 
 if __name__ == '__main__':
     app.run()
