@@ -342,7 +342,7 @@ def getPair():
     mylist = []
     for pair in pairs:
         if pair in dictionary.keys():
-            val = dictionary.get(pair)+round(dictionary.get(pair)+random.uniform(0,1),5)
+            val = round(dictionary.get(pair)+dictionary.get(pair)+random.uniform(0,1),5)
             mylist.append({pair:val})
         else:
             mylist.append({pair:"_"})
