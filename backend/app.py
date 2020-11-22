@@ -6,7 +6,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin,login_user, current_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -111,6 +110,31 @@ def get_exchrate():
     list1 = list(response.items())
     return {"resp":list1}
 
+@app.route('/history')
+def historical_rates():
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    base = request.args.get('base')
+    quote= request.args.get('quote')
+    apiStr = f"https://api.exchangeratesapi.io/history?start_at={start_date}&end_at={end_date}&base={base}&symbols={quote}"
+    x = requests.get(apiStr)
+    if(x.json().get('error')):
+        return {"error":"symbols not supported"}
+    rates = x.json().get('rates')
+    rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
+    print(rates)
+    newlist=[]
+    Maxx = -1
+    Min = 99999
+    for rate in rates:
+        q = rates[rate][quote]
+        if q<Min:
+            Min=q
+        if q>Maxx:
+            Maxx=q
+        newlist.append({rate:q})
+    return {"list":newlist, "max_rate":Maxx, "min_rate":Min}
+    
 
 
 
