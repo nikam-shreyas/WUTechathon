@@ -22,7 +22,7 @@ class LiveGraph extends Component {
   fetchData() {
     setInterval(() => {
       let urlLink =
-        "http://localhost:5001/getPair?pair=" + this.props.selection;
+        "http://localhost:5000/getPair?pair=" + this.props.selection;
       fetch(urlLink, {
         headers: {
           "Content-Type": "application/json",

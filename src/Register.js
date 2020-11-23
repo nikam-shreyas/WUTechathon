@@ -42,7 +42,7 @@ class Register extends Component {
           <form
             id="Register"
             method="POST"
-            action="http://localhost:5001/register"
+            action="http://localhost:5000/register"
           >
             <h2 style={{ fontSize: "40px", alignSelf: "center" }}>Register</h2>
             <div className="form-group ">

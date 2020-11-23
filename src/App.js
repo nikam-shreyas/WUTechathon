@@ -19,7 +19,7 @@ class App extends Component {
   fetchRates() {
     setInterval(() => {
       let urlLink =
-        "http://localhost:5001/getPair?pair=" + this.state.selection;
+        "http://localhost:5000/getPair?pair=" + this.state.selection;
       fetch(urlLink, {
         headers: {
           "Content-Type": "application/json",

@@ -232,7 +232,7 @@ class Convertor extends Component {
         "Rate: 1 <br /> Result: " + this.state.amount;
     } else {
       let conversion = "" + this.state.from + this.state.to;
-      let urlLink = "http://localhost:5001/getPair/" + conversion;
+      let urlLink = "http://localhost:5000/getPair/" + conversion;
       fetch(urlLink)
         .then((res) => res.json())
         .then((res) => {
