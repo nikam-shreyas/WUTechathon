@@ -17,26 +17,26 @@ import { list } from "../Helper/List";
 
 const initialState = {
   data: [
-    { timestamp: 1, bestRate: 1.79, worstRate: 200 },
-    { timestamp: 2, bestRate: 2.39, worstRate: 120 },
-    { timestamp: 3, bestRate: 1.37, worstRate: 150 },
-    { timestamp: 4, bestRate: 1.16, worstRate: 180 },
-    { timestamp: 5, bestRate: 2.29, worstRate: 200 },
-    { timestamp: 6, bestRate: 3, worstRate: 499 },
-    { timestamp: 7, bestRate: 0.53, worstRate: 50 },
-    { timestamp: 8, bestRate: 2.52, worstRate: 100 },
-    { timestamp: 9, bestRate: 1.79, worstRate: 200 },
-    { timestamp: 10, bestRate: 2.94, worstRate: 222 },
-    { timestamp: 11, bestRate: 4.3, worstRate: 210 },
-    { timestamp: 12, bestRate: 4.41, worstRate: 300 },
-    { timestamp: 13, bestRate: 2.1, worstRate: 50 },
-    { timestamp: 14, bestRate: 8, worstRate: 190 },
-    { timestamp: 15, bestRate: 0, worstRate: 300 },
-    { timestamp: 16, bestRate: 9, worstRate: 400 },
-    { timestamp: 17, bestRate: 3, worstRate: 200 },
-    { timestamp: 18, bestRate: 2, worstRate: 50 },
-    { timestamp: 19, bestRate: 3, worstRate: 100 },
-    { timestamp: 20, bestRate: 7, worstRate: 100 },
+    { date: "1/11/20", best_rate: 1.79, worst_rate: 0.4 },
+    { date: "2/11/20", best_rate: 2.39, worst_rate: 1.24 },
+    { date: "3/11/20", best_rate: 1.37, worst_rate: 1.29 },
+    { date: "4/11/20", best_rate: 1.16, worst_rate: 0.57 },
+    { date: "5/11/20", best_rate: 2.29, worst_rate: 0.76 },
+    { date: "6/11/20", best_rate: 3, worst_rate: 1 },
+    { date: "7/11/20", best_rate: 0.53, worst_rate: 0.02 },
+    { date: "8/11/20", best_rate: 2.52, worst_rate: 1.2 },
+    { date: "9/11/20", best_rate: 1.79, worst_rate: 0.89 },
+    { date: "10/11/20", best_rate: 2.94, worst_rate: 1.19 },
+    { date: "11/11/20", best_rate: 4.3, worst_rate: 2.0 },
+    { date: "12/11/20", best_rate: 4.41, worst_rate: 1 },
+    { date: "13/11/20", best_rate: 2.1, worst_rate: 1.0 },
+    { date: "14/11/20", best_rate: 8, worst_rate: 3 },
+    { date: "15/11/20", best_rate: 4, worst_rate: 1 },
+    { date: "16/11/20", best_rate: 9, worst_rate: 2 },
+    { date: "17/11/20", best_rate: 3, worst_rate: 1 },
+    { date: "18/11/20", best_rate: 2, worst_rate: 0 },
+    { date: "19/11/20", best_rate: 3, worst_rate: 1.47 },
+    { date: "20/11/20", best_rate: 7, worst_rate: 2.09 },
   ],
   left: "dataMin",
   right: "dataMax",
@@ -96,7 +96,7 @@ class HistoricalGraph extends Component {
 
   fetchData() {
     fetch(
-      "http                                                                                                                                                                   ://localhost:5000/getHistory?start=" +
+      "http://localhost:5000/getHistory?start=                                                                                                                                                                   ://localhost:5000/getHistory?start=" +
         this.state.fromDate +
         "&end=" +
         this.state.toDate +
