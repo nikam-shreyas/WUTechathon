@@ -8,7 +8,7 @@ import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
 class App extends Component {
   state = {
-    selection: "EUR",
+    selection: "USDINR",
     history: "",
   };
 
@@ -18,8 +18,14 @@ class App extends Component {
   }
   fetchRates() {
     setInterval(() => {
-      let urlLink = "http://localhost:5000/getPair/" + this.state.selection;
-      fetch(urlLink)
+      let urlLink =
+        "http://localhost:5001/getPair?pair=" + this.state.selection;
+      fetch(urlLink, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Qrigin": "*",
+        },
+      })
         .then((res) => res.json())
         .then((res) => {
           if (this.state.history > res[this.state.selection]) {

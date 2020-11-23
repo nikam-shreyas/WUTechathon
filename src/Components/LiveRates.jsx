@@ -17,14 +17,20 @@ class LiveRates extends Component {
   fetchRates() {
     setInterval(() => {
       fetch(
-        "http://localhost:5000/getPair/" +
+        "http://localhost:5001/getPair?pair=" +
           this.state.topFour[0] +
           "," +
           this.state.topFour[1] +
           "," +
           this.state.topFour[2] +
           "," +
-          this.state.topFour[3]
+          this.state.topFour[3],
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Qrigin": "*",
+          },
+        }
       )
         .then((res) => res.json())
         .then((res) => {
@@ -44,7 +50,7 @@ class LiveRates extends Component {
     }, 15000);
   }
   componentDidMount() {
-    fetch("http://localhost:5000/getTop")
+    fetch("http://localhost:5001/getTop")
       .then((res) => res.json())
       .then((res) => {
         this.setState({ topFour: res });

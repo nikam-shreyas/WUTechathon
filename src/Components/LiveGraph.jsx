@@ -9,7 +9,7 @@ import {
 } from "recharts";
 class LiveGraph extends Component {
   state = {
-    selection: "EUR",
+    selection: "USDINR",
     history: [{ name: "", value: 0.0 }],
   };
   constructor(props) {
@@ -21,8 +21,14 @@ class LiveGraph extends Component {
   }
   fetchData() {
     setInterval(() => {
-      let urlLink = "http://localhost:5000/getPair/" + this.props.selection;
-      fetch(urlLink)
+      let urlLink =
+        "http://localhost:5001/getPair?pair=" + this.props.selection;
+      fetch(urlLink, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Qrigin": "*",
+        },
+      })
         .then((res) => res.json())
         .then((res) => {
           if (this.state.history.length > 10) {
