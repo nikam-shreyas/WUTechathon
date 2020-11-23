@@ -47,7 +47,7 @@ class Register extends Component {
 	  <input
           name="username" className="form-control"
           
-          
+          required
           type="text"
           placeholder="Full Name"
         /></div>
@@ -58,7 +58,7 @@ class Register extends Component {
         <input
           name="fxprovider" className="form-control"
           
-         
+         required
           type="text"
           
           placeholder="Fx Provider Name "
@@ -66,17 +66,18 @@ class Register extends Component {
 
         <div className="form-group ">
                     <label  style={{padding:"10px"}}>Email address</label>                    
-        <input
-          name="email" className="form-control"
+        < input name="email" className="form-control" 
           
-          type="text"
-          placeholder="Email Address"
+          type="email" minlength = "4" 
+          placeholder="Email Address"  required
+          
         /></div>
         <div className="form-group ">
                     <label  style={{padding:"10px"}}>Password</label>
         <input
           name="passwordOne" className="form-control"
           
+          required minlength = "6"
           type="password"
           placeholder="Password"
         /></div>
@@ -84,11 +85,11 @@ class Register extends Component {
                     <label  style={{padding:"10px"}}>Confirm Password</label>
         <input
           name="passwordTwo" className="form-control"
-      
+          required minlength = "6"
           type="password"
           placeholder="Confirm Password"
         /></div><br/>
-        <button className="btn btn-primary btn-block" type="submit">
+        <button   className="btn btn-primary btn-block" type="submit">
          Register
         </button><br/>
         {error && <p>{error.message}</p>}

@@ -3,7 +3,6 @@ body {
     color: white;
   }
 #Login{
-    margin: 0;
     background: #293755af;
     position: absolute;
     top: 50%;
@@ -12,20 +11,31 @@ body {
     height: 450px;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-    box-sizing: border-box;
     padding: 50px 50px;
     border-radius: 2%;
 
 }
+.wrapper{
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  
+top:0;
+bottom: 0;
+left: 0;
+right: 0;
+}
 .con1 {
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 500px;
 
     background: #293755af;
     display: flex;
   
   }
- 
+  
 #Login button:hover
 {
     cursor: pointer;
