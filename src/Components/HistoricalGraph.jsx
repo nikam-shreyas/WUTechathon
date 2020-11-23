@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import React, { Component } from "react";
 import { FaDownload } from "react-icons/fa";
-import list from "../Helper/List";
+import { list } from "../Helper/List";
 
 const initialState = {
   data: [
@@ -53,8 +53,8 @@ const initialState = {
 };
 
 class HistoricalGraph extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = initialState;
     this.fetchData = this.fetchData.bind(this);
     this.getAxisYDomain = this.getAxisYDomain.bind(this);
@@ -65,7 +65,7 @@ class HistoricalGraph extends Component {
     this.JSON2CSV = this.JSON2CSV.bind(this);
   }
   componentDidMount() {
-    this.fetchData();
+    // this.fetchData();
   }
   getAxisYDomain = (from, to, ref, offset) => {
     let tempfrom =
@@ -96,7 +96,7 @@ class HistoricalGraph extends Component {
 
   fetchData() {
     fetch(
-      "http://localhost:5000/getHistory?start=" +
+      "http                                                                                                                                                                   ://localhost:5000/getHistory?start=" +
         this.state.fromDate +
         "&end=" +
         this.state.toDate +
@@ -109,13 +109,19 @@ class HistoricalGraph extends Component {
         },
       }
     )
-      .then((res) => res.json())
-      .then((res) => this.setState({ data: res }));
+      .then((res) => {
+        console.log(res);
+        res.json();
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ data: res });
+      });
   }
 
   handleSelectionChange(selection) {
     this.setState({ selection: selection["e"] });
-    this.fetchData();
+    // this.fetchData();
   }
   JSON2CSV(objArray) {
     var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
@@ -193,7 +199,10 @@ class HistoricalGraph extends Component {
 
     return (
       <div className="container">
-        <div className="historical-header">
+        <div
+          className="historical-header"
+          style={{ marginLeft: "-19px", marginRight: "-19px" }}
+        >
           <div className="row">
             <div className="col-sm-2">
               <button
@@ -278,7 +287,7 @@ class HistoricalGraph extends Component {
             <LineChart width={800} height={250} data={this.state.data}>
               <XAxis
                 allowDataOverflow
-                dataKey="timestamp"
+                dataKey="date"
                 domain={[left, right]}
                 type="category"
                 tick={{ fontSize: 10 }}
@@ -295,7 +304,7 @@ class HistoricalGraph extends Component {
                 yAxisId="1"
                 type="natural"
                 name="Daily Best Rate"
-                dataKey="bestRate"
+                dataKey="best_rate"
                 stroke="#27A345"
                 animationDuration={300}
               />
@@ -303,7 +312,7 @@ class HistoricalGraph extends Component {
                 yAxisId="1"
                 type="natural"
                 name="Daily Worst Rate"
-                dataKey="worstRate"
+                dataKey="worst_rate"
                 stroke="#B93249"
                 animationDuration={300}
               />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import list from "../Helper/List";
+import { list } from "../Helper/List";
 class Selector extends Component {
   state = {};
   render() {

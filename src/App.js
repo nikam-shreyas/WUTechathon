@@ -6,9 +6,11 @@ import HistoricalGraph from "./Components/HistoricalGraph";
 import LiveRates from "./Components/LiveRates";
 import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
+import BaseRate from "./Components/BaseRate";
 class App extends Component {
   state = {
     selection: "USDINR",
+    base: "USD",
     history: "",
   };
 
@@ -35,7 +37,7 @@ class App extends Component {
           }
           this.setState({ history: res[this.state.selection] });
         });
-    }, 1000);
+    }, 15000);
   }
   setSelection() {
     this.setState({ selection: document.getElementById("selector").value });
@@ -127,6 +129,14 @@ class App extends Component {
                 {this.state.history}
               </small>
             </p>
+            <hr
+              style={{
+                borderTop: "10px solid #202a43",
+                marginLeft: "-10px",
+                marginRight: "-5px",
+              }}
+            />
+            <BaseRate base={this.state.base} />
           </div>
           <div className="col-sm-8"></div>
         </div>
