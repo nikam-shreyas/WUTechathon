@@ -35,7 +35,7 @@ class App extends Component {
           }
           this.setState({ history: res[this.state.selection] });
         });
-    }, 15000);
+    }, 1000);
   }
   setSelection() {
     this.setState({ selection: document.getElementById("selector").value });

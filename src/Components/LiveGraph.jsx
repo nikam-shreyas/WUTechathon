@@ -47,7 +47,7 @@ class LiveGraph extends Component {
             ],
           }));
         });
-    }, 15000);
+    }, 5000);
   }
   componentDidMount() {
     this.fetchData();

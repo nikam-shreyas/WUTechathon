@@ -16,46 +16,36 @@ class LiveRates extends Component {
   }
   fetchRates() {
     setInterval(() => {
-      fetch(
-        "http://localhost:5000/getPair?pair=" +
-          this.state.topFour[0] +
-          "," +
-          this.state.topFour[1] +
-          "," +
-          this.state.topFour[2] +
-          "," +
-          this.state.topFour[3],
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Qrigin": "*",
-          },
-        }
-      )
+      fetch("http://localhost:5000/getTop", {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Qrigin": "*",
+        },
+      })
         .then((res) => res.json())
         .then((res) => {
           let temp = [];
           let i = 0;
-          for (const key in res) {
-            if (res.hasOwnProperty(key)) {
-              let tempStat =
-                this.state.rates[i]["rate"] > res[key] ? "success" : "danger";
-              temp.push({ name: key, rate: res[key], status: tempStat });
+          res.forEach((element) => {
+            for (const key in element) {
+              if (element.hasOwnProperty(key)) {
+                let tempStat =
+                  this.state.rates[i]["rate"] > element[key]
+                    ? "success"
+                    : "danger";
+                temp.push({ name: key, rate: element[key], status: tempStat });
+              }
+              i += 1;
             }
-            i += 1;
-          }
+          });
+
           this.setState({ rates: temp });
           this.setState({ isLoaded: true });
         });
-    }, 15000);
+    }, 5000);
   }
   componentDidMount() {
-    fetch("http://localhost:5000/getTop")
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ topFour: res });
-      })
-      .then(this.fetchRates());
+    this.fetchRates();
   }
   render() {
     if (this.state.isLoaded) {

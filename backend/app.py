@@ -341,13 +341,13 @@ def getTop():
 @app.route('/getPair')
 def getPair():
     pairs = request.args.get('pair').split(',')
-    mylist = []
+    mylist = {}
     for pair in pairs:
         if pair in dictionary.keys():
-            val = round(dictionary.get(pair)+dictionary.get(pair)+random.uniform(0,1),5)
-            mylist.append({pair:val})
+            val = round(dictionary.get(pair)+random.uniform(0,1),5)
+            mylist[pair]=val
         else:
-            mylist.append({pair:"_"})
+            mylist[pair]="_"
     return jsonify(mylist)
 
 @app.route('/getHistory')
@@ -368,8 +368,8 @@ def getHistory():
         mylist.append(
             {
                 "date":strftime("%Y-%m-%d", single_date.timetuple()),
-                "best_rate":round(rate+rate+random.uniform(0,2),5),
-                "worst_rate":round(rate+rate-random.uniform(0,2),5)
+                "best_rate":round(rate+random.uniform(0,2),5),
+                "worst_rate":round(rate-random.uniform(0,2),5)
             }
         )
     return jsonify(mylist)
