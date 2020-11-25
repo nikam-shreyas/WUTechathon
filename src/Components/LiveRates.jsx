@@ -51,6 +51,12 @@ class LiveRates extends Component {
     if (this.state.isLoaded) {
       return (
         <div className="container-fluid">
+          <div
+            className="historical-header"
+            style={{ marginLeft: "-19px", marginRight: "-19px" }}
+          >
+            Top Rates
+          </div>
           <div className="row">
             <div className="col-sm-3 rateDisplay">
               <h3>{this.state.rates[0].name}</h3>

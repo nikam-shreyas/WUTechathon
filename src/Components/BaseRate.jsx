@@ -14,7 +14,10 @@ class BaseRate extends Component {
     this.handleSelectionChange = this.handleSelectionChange.bind(this);
   }
   toggle() {
-    document.getElementsByClassName("ratesTable")[0].style.height = "auto";
+    document.getElementsByClassName("ratesTable")[0].style.height =
+      document.getElementsByClassName("ratesTable")[0].style.height === "auto"
+        ? "230px"
+        : "auto";
   }
   handleSelectionChange(selection) {
     this.setState({ base: selection["e"] });
@@ -63,8 +66,8 @@ class BaseRate extends Component {
               backgroundColor: "#2b3f5e",
               marginLeft: "-4px",
               marginRight: "-4px",
-              marginTop: "-10px",
               marginBottom: "10px",
+              marginTop: "5px",
             }}
           >
             <center>

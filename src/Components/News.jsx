@@ -54,23 +54,31 @@ class News extends Component {
 
   render() {
     return (
-      <div class="example3">
-        <div className="news-scroll">
-          {" "}
-          {this.state.news.map((e, i) => (
-            <>
-              <div key={i} className="news-item">
-                <div className="news-header">
-                  <a href={e["url"]}>{e["title"]}</a>
+      <div>
+        <div
+          className="historical-header"
+          style={{ marginRight: "-5px", marginLeft: "-5px" }}
+        >
+          Forex News
+        </div>
+        <div className="example3 mt-1">
+          <div className="news-scroll">
+            {" "}
+            {this.state.news.map((e, i) => (
+              <>
+                <div key={i} className="news-item">
+                  <div className="news-header">
+                    <a href={e["url"]}>{e["title"]}</a>
+                  </div>
+                  <small className="news-info">
+                    {new Date(e["datePublished"]).toUTCString() + " | "}{" "}
+                    <b>{e["provider"]}</b>
+                  </small>
                 </div>
-                <small className="news-info">
-                  {new Date(e["datePublished"]).toUTCString() + " | "}{" "}
-                  <b>{e["provider"]}</b>
-                </small>
-              </div>
-              <BiLinkAlt id="link" style={{ float: "right" }} />
-            </>
-          ))}
+                <BiLinkAlt id="link" style={{ float: "right" }} />
+              </>
+            ))}
+          </div>
         </div>
       </div>
     );

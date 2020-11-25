@@ -222,7 +222,11 @@ body {
   padding-right: 15px;
   background-color: #2b3f5e;
 }
-
+::-webkit-calendar-picker-indicator {
+  background: transparent;
+  padding: 0px;
+  margin: 0px;
+}
 #dropdownMenuButton {
   background-color: transparent;
   border: 0px;
@@ -309,7 +313,7 @@ body {
 .ratesTable {
   font-size: 12px;
   text-align: right;
-  height: 160px;
+  height: 230px;
   overflow-y: hidden;
 }
 .ratesTable table {
@@ -342,4 +346,9 @@ body {
 
 .ratesButton {
   display: block;
+}
+
+.form-control {
+  background: transparent;
+  color: white;
 }

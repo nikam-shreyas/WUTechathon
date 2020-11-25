@@ -7,6 +7,7 @@ import LiveRates from "./Components/LiveRates";
 import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
 import BaseRate from "./Components/BaseRate";
+import Convertor from "./Components/Convertor";
 class App extends Component {
   state = {
     selection: "USDINR",
@@ -70,10 +71,21 @@ class App extends Component {
           </div>
         </div>
         <div className="row ">
-          <div className="col-sm-8 selector">
-            <HistoricalGraph selection={this.state.selection} />
+          <div className="col-sm-3 selector">
+            <BaseRate base={this.state.base} />
           </div>
           <div className="col-sm-4 selector">
+            <div
+              className="historical-header"
+              style={{
+                marginRight: "-5px",
+                marginLeft: "-5px",
+                marginTop: "3px",
+                height: "30px",
+              }}
+            >
+              Live Rates
+            </div>
             <center>
               <Selector />
               <button
@@ -97,6 +109,9 @@ class App extends Component {
               selection={this.state.selection}
               data={this.state.history}
             />
+          </div>
+          <div className="col-sm-5 selector">
+            <HistoricalGraph selection={this.state.selection} />
           </div>
         </div>
         <div className="row">
@@ -129,16 +144,17 @@ class App extends Component {
                 {this.state.history}
               </small>
             </p>
-            <hr
+            {/* <hr
               style={{
                 borderTop: "10px solid #202a43",
                 marginLeft: "-10px",
                 marginRight: "-5px",
               }}
-            />
-            <BaseRate base={this.state.base} />
+            /> */}
           </div>
-          <div className="col-sm-8"></div>
+          <div className="col-sm-4 selector">
+            <Convertor />
+          </div>
         </div>
       </div>
     );

@@ -146,7 +146,7 @@ def historical_rates():
 
 
 dictionary = {
-    "EURGBP": 0.89518,
+  "EURGBP": 0.89518,
   "EURUSD": 1.187611,
   "GBPUSD": 1.326673,
   "NZDUSD": 0.689708,
@@ -352,6 +352,8 @@ def getTop():
         temp[newtemp[i]] = round(temp[newtemp[i]] + random.uniform(0,1),5)
         newlist.append({newtemp[i]:temp[newtemp[i]]})
     return jsonify(newlist)
+
+    
 
 @app.route('/getPair')
 def getPair():

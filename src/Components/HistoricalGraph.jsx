@@ -65,7 +65,7 @@ class HistoricalGraph extends Component {
     this.JSON2CSV = this.JSON2CSV.bind(this);
   }
   componentDidMount() {
-    // this.fetchData();
+    this.fetchData();
   }
   getAxisYDomain = (from, to, ref, offset) => {
     let tempfrom =
@@ -95,8 +95,9 @@ class HistoricalGraph extends Component {
   }
 
   fetchData() {
+    console.log(this.state.fromDate);
     fetch(
-      "http://localhost:5000/getHistory?start=                                                                                                                                                                   ://localhost:5000/getHistory?start=" +
+      "http://localhost:5000/getHistory?start=" +
         this.state.fromDate +
         "&end=" +
         this.state.toDate +
@@ -109,19 +110,15 @@ class HistoricalGraph extends Component {
         },
       }
     )
+      .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        res.json();
-      })
-      .then((res) => {
-        console.log(res);
         this.setState({ data: res });
       });
   }
 
   handleSelectionChange(selection) {
     this.setState({ selection: selection["e"] });
-    // this.fetchData();
+    this.fetchData();
   }
   JSON2CSV(objArray) {
     var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
@@ -201,10 +198,13 @@ class HistoricalGraph extends Component {
       <div className="container">
         <div
           className="historical-header"
-          style={{ marginLeft: "-19px", marginRight: "-19px" }}
+          style={{
+            marginLeft: "-19px",
+            marginRight: "-19px",
+          }}
         >
           <div className="row">
-            <div className="col-sm-2">
+            <div className="col-sm-12">
               <button
                 className="btn btn-secondary btn-sm dropdown-toggle"
                 type="button"
@@ -233,29 +233,19 @@ class HistoricalGraph extends Component {
                   </a>
                 ))}
               </div>
-            </div>
-            <div className="col-sm-10">
               <small
                 style={{
                   float: "right",
                   cursor: "pointer",
-                  marginTop: "4px",
                   left: "10px",
                 }}
               >
-                <FaDownload
-                  size={15}
-                  fill="#17A2B8"
-                  onClick={this.downloadData}
-                />
-              </small>
-              <small style={{ fontSize: "12px", float: "right" }}>
-                {" "}
                 From{" "}
                 <input
                   type="date"
                   name="fromDate"
                   className="form-control1"
+                  style={{ padding: "-10px", margin: "0px", fill: "white" }}
                   onChange={this.handleFromDateChange}
                 />{" "}
                 To{" "}
@@ -278,6 +268,11 @@ class HistoricalGraph extends Component {
                 >
                   Fetch Data
                 </button>
+                <FaDownload
+                  size={15}
+                  fill="#17A2B8"
+                  onClick={this.downloadData}
+                />{" "}
               </small>
             </div>
           </div>
