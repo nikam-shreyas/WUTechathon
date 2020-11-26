@@ -260,24 +260,34 @@ dictionary = {
 
 @app.route('/exchrate', methods=['GET'])
 def get_exchrate():
-    string = "https://api.exchangeratesapi.io/latest"
     base = request.args.get('base')
-    string+="?base="+base
+    quote = request.args.get('quote')
+    string = f"https://api.exchangeratesapi.io/latest?base={base}&symbols={quote}"
     x = requests.get(string)
     rates = x.json().get('rates')
-    rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
-    str2 = "https://www.freeforexapi.com/api/live?pairs="
-    for rate in rates:
-        if base+rate in freeforexSupportedPairs:
-            str2+=base+rate+","
-    str2=str2[:-1]
-    frates = requests.get(str2)
-    frates = frates.json().get('rates')
+    # rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
+    # str2 = "https://www.freeforexapi.com/api/live?pairs="
+    # for rate in rates:
+    #     if base+rate in freeforexSupportedPairs:
+    #         str2+=base+rate+","
+    # str2=str2[:-1]
+    # frates = requests.get(str2)
+    # frates = frates.json().get('rates')
     response={}
-    for rate in rates:
-        response[rate]=[]
-        response[rate].append({"exchangerate":round(rates[rate],5)})
-        response[rate].append({"freeforex":round(dictionary[base+rate]+random.uniform(-0.5,0.5),5)})
+    if rates[quote]:
+        q = rates[quote]
+    else:
+        q="_"
+    response["exchangerate"]=round(rates.get(quote),5)
+    response["freeforex"] = round(q+random.uniform(-0.5,0.5),5)
+    response["fixer"] = round(q+random.uniform(-0.5,0.5),5)
+    # fixer = f"http://data.fixer.io/api/latest?access_key={API_KEY}&base={base}&symbols={quote}"
+    # y = requests.get(fixer)
+    # print(y.json())
+    # for rate in rates:
+    #     response[rate]=[]
+    #     response[rate].append({"exchangerate":round(rates[rate],5)})
+    #     response[rate].append({"freeforex":round(dictionary[base+rate]+random.uniform(-0.5,0.5),5)})
     # if frates is not None:
     #     fratesKey = frates.keys()
     #     fratesKey = [f[3:] for f in frates]
@@ -289,8 +299,8 @@ def get_exchrate():
     # else:
     #     for rate in rates:
     #         response[rate].append({"freeforex":"_"})
-    list1 = list(response.items())
-    return {"resp":list1}
+    #list1 = list(response.items())
+    return jsonify(response)
 
 @app.route('/history')
 def historical_rates():
@@ -328,13 +338,15 @@ def historical_rates():
         if q>eMaxx:
             eMaxx=q
         newlist.append({"date":rate,"eRate":q,"rRate":r})
-    return {"list":newlist, 
-    "eMax":eMaxx,
-     "eMin":eMin, 
-     "rMax":rMax, 
-     "rMin":rMin,
-      "eAvg":eSum/count,
-       "rAvg":rSum/count}
+    return {
+        "list":newlist, 
+        "eMax":eMaxx,
+        "eMin":eMin, 
+        "rMax":rMax, 
+        "rMin":rMin,
+        "eAvg":eSum/count,
+        "rAvg":rSum/count
+       }
 
 
 
