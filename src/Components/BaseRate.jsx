@@ -5,6 +5,7 @@ class BaseRate extends Component {
     base: "USD",
     rates: [{ quote: "_", freeforex: "", exchangerate: "" }],
     isLoaded: false,
+    history: "",
   };
   constructor(props) {
     super(props);
@@ -24,39 +25,60 @@ class BaseRate extends Component {
     // console.log()
     this.fetchData();
   }
+  // static getDerivedStateFromProps(props, currentState) {
+  //   if (props.base != currentState.value) {
+  //     this.setState({ base: props.base });
+  //     this.fetchData();
+  //   }
+  // }
+  // componentDidUpdate(prevProps, prevState,snapshot) {
+
+  // }
+  // useEffect(() => {
+  //   if (props.startTime !== startTime) {
+  //     setStartTime(props.startTime);
+  //   }
+  // }, [props.startTime]);
+  componentWillReceiveProps(newProps) {
+    this.setState({ base: newProps.base });
+    this.fetchData();
+  }
   fetchData() {
-    fetch("http://localhost:5000/exchrate?base=" + this.state.base, {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Qrigin": "*",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        let rates = [];
-        res["resp"].forEach((element) => {
-          let temp = {};
-          temp["quote"] = element[0];
-          if (!isNaN(element[1][0]["exchangerate"]))
-            temp["exchangerate"] = element[1][0]["exchangerate"].toFixed(5);
-          else temp["exchangerate"] = "-";
-          if (!isNaN(element[1][1]["freeforex"]))
-            temp["freeforex"] = element[1][1]["freeforex"];
-          else temp["freeforex"] = "-";
-          let tempDate = new Date();
-          temp["date"] =
-            tempDate.getHours() +
-            ":" +
-            tempDate.getMinutes() +
-            ":" +
-            tempDate.getSeconds();
-          rates.push(temp);
+    if (this.state.base != this.state.history) {
+      this.setState({ history: this.state.base });
+      fetch("http://localhost:5000/exchrate?base=" + this.state.base, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Qrigin": "*",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          let rates = [];
+          res["resp"].forEach((element) => {
+            let temp = {};
+            temp["quote"] = element[0];
+            if (!isNaN(element[1][0]["exchangerate"]))
+              temp["exchangerate"] = element[1][0]["exchangerate"].toFixed(5);
+            else temp["exchangerate"] = "-";
+            if (!isNaN(element[1][1]["freeforex"]))
+              temp["freeforex"] = element[1][1]["freeforex"];
+            else temp["freeforex"] = "-";
+            let tempDate = new Date();
+            temp["date"] =
+              tempDate.getHours() +
+              ":" +
+              tempDate.getMinutes() +
+              ":" +
+              tempDate.getSeconds();
+            rates.push(temp);
+          });
+          this.setState({
+            rates: rates,
+          });
+          this.setState({ isLoaded: true });
         });
-        this.setState({
-          rates: rates,
-        });
-        this.setState({ isLoaded: true });
-      });
+    }
   }
   componentDidMount() {
     this.fetchData();
@@ -67,48 +89,18 @@ class BaseRate extends Component {
         <div>
           <div
             style={{
-              backgroundColor: "#2b3f5e",
               marginLeft: "-4px",
               marginRight: "-4px",
-              marginBottom: "10px",
-              marginTop: "5px",
             }}
+            className="historical-header mb-2"
           >
-            <center>
-              {" "}
-              <button
-                className="btn btn-secondary btn-sm dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Select Base: {this.state.base} {"   "}
-              </button>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="dropdownMenuButton"
-              >
-                {list2.map((e) => (
-                  <a
-                    className="dropdown-item"
-                    onClick={() => {
-                      this.handleSelectionChange({ e });
-                    }}
-                  >
-                    {e}
-                  </a>
-                ))}
-              </div>
-            </center>
+            Sorted Rates
           </div>
           <div className="ratesTable">
             <table>
               <tr className="ratesHeader">
                 <td>Quote</td>
-                <td>ExchangeRate</td>
-                <td>FreeForex</td>
+                <td>Rate</td>
                 <td>TimeStamp</td>
               </tr>
               <tr>
@@ -131,7 +123,6 @@ class BaseRate extends Component {
                     {this.state.base + element["quote"]}
                   </td>
                   <td>{element["exchangerate"]}</td>
-                  <td>{element["freeforex"]}</td>
                   <td className="ratesDate">{element["date"]}</td>
                 </tr>
               ))}

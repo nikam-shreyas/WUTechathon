@@ -89,7 +89,7 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-sm-4 selector">
-            <LiveRates />
+            <LiveRates base={this.state.base} quote={this.state.quote} />
           </div>
           <div className="col-sm-4 selector">
             <div
@@ -165,31 +165,14 @@ class App extends Component {
             <BaseRate base={this.state.base} />
           </div>
           <div className="col-sm-4 selector">
-            <div
-              className="historical-header"
+            <Convertor base={this.state.base} quote={this.state.quote} />
+            <hr
               style={{
-                marginRight: "-5px",
-                marginLeft: "-5px",
-                marginTop: "3px",
-                height: "30px",
+                borderTop: "10px solid #202a43",
+                marginRight: "-4px",
+                marginLeft: "-4px",
               }}
-            >
-              Live Rates
-            </div>
-
-            <LiveGraph
-              base={this.state.base}
-              quote={this.state.quote}
-              selection={this.state.selection}
-              data={this.state.history}
             />
-          </div>
-          <div className="col-sm-5 selector">
-            <HistoricalGraph selection={this.state.selection} />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-4 selector">
             <div
               className="historical-header"
               style={{ marginLeft: "-5px", marginRight: "-5px" }}
@@ -228,8 +211,28 @@ class App extends Component {
               </small>
             </p>
           </div>
-          <div className="col-sm-4 selector">
-            <Convertor />
+          <div className="col-sm-5 selector">
+            <div
+              className="historical-header"
+              style={{
+                marginRight: "-5px",
+                marginLeft: "-5px",
+                marginTop: "3px",
+                height: "30px",
+              }}
+            >
+              Live Rates
+            </div>
+
+            <LiveGraph
+              selection={this.state.base + this.state.quote}
+              data={this.state.history}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 selector">
+            <HistoricalGraph />
           </div>
         </div>
       </div>

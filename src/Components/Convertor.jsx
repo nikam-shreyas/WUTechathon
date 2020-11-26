@@ -21,6 +21,10 @@ class Convertor extends Component {
   componentDidMount() {
     this.fetchData();
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ base: nextProps.base, quote: nextProps.quote });
+    this.fetchData();
+  }
   fetchData() {
     let tempRate = "",
       tempRev = "";
@@ -39,7 +43,7 @@ class Convertor extends Component {
         this.setState({
           convert: tempRate,
           reverse: tempRev,
-          timestamp: new Date().toUTCString(),
+          timestamp: new Date().toLocaleString(),
         });
         document.getElementById("convertFrom").value = 1;
         document.getElementById("convertTo").value = this.state.convert;
@@ -98,9 +102,10 @@ class Convertor extends Component {
               {this.state.base}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {list2.map((e) => (
+              {list2.map((e, i) => (
                 <a
                   className="dropdown-item"
+                  key={i}
                   onClick={() => {
                     this.handleBaseChange({ e });
                   }}
@@ -172,8 +177,8 @@ class Convertor extends Component {
               is: <small style={{ color: "white" }}>{this.state.reverse}</small>
               <br />
               <p className="mt-2" style={{ color: "white", fontSize: "12px" }}>
-                Rate Details: {this.state.base}/{this.state.quote} for the
-                24-hour period ending at{" "}
+                {this.state.base}/{this.state.quote} for the 24-hour period
+                fetched at{" "}
                 <b style={{ fontWeight: "bold", color: "#49aff2" }}>
                   {this.state.timestamp}
                 </b>

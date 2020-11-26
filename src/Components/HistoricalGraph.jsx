@@ -194,14 +194,8 @@ class HistoricalGraph extends Component {
     } = this.state;
 
     return (
-      <div className="container">
-        <div
-          className="historical-header"
-          style={{
-            marginLeft: "-19px",
-            marginRight: "-19px",
-          }}
-        >
+      <div className="container-fluid">
+        <div className="historical-header">
           <div className="row">
             <div className="col-sm-12">
               <button

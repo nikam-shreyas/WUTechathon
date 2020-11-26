@@ -19,6 +19,11 @@ class LiveGraph extends Component {
       selection: props.selection,
     });
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selection != this.state.selection) {
+      this.setState({ selection: nextProps.selection });
+    }
+  }
   fetchData() {
     setInterval(() => {
       let urlLink =
@@ -52,12 +57,13 @@ class LiveGraph extends Component {
   componentDidMount() {
     this.fetchData();
   }
+
   render() {
     return (
-      <div className="m-2">
+      <div className="mt-2">
         <center>{this.state.selection}</center>
         {/* {this.state.history[this.state.history.length - 1]["uv"]} */}
-        <ResponsiveContainer width="100%" height={150}>
+        <ResponsiveContainer width="100%" height={220}>
           <AreaChart
             width={730}
             height={150}
