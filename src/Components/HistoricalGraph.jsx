@@ -249,12 +249,11 @@ class HistoricalGraph extends Component {
                   onChange={this.handleToDateChange}
                 />
                 <button
-                  className="btn btn-sm btn-outline-info ml-2"
+                  className="btn btn-sm btn-outline-info ml-2 mr-2"
                   style={{
                     padding: "1px",
                     paddingLeft: "3px",
                     paddingRight: "3px",
-                    marginRight: "18px",
                     fontSize: "12px",
                   }}
                   onClick={this.fetchData}

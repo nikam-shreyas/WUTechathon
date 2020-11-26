@@ -306,7 +306,7 @@ body {
     transform: translateY(100%);
   }
   100% {
-    transform: translateY(-1300%);
+    transform: translateY(-1100%);
   }
 }
 
