@@ -85,66 +85,6 @@ def get_users():
     users = User.query.with_entities(User.fx_name).all()
     return jsonify({"users":users})
 
-
-@app.route('/exchrate', methods=['GET'])
-def get_exchrate():
-    string = "https://api.exchangeratesapi.io/latest"
-    base = request.args.get('base')
-    string+="?base="+base
-    x = requests.get(string)
-    rates = x.json().get('rates')
-    rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
-    str2 = "https://www.freeforexapi.com/api/live?pairs="
-    for rate in rates:
-        if base+rate in freeforexSupportedPairs:
-            str2+=base+rate+","
-    str2=str2[:-1]
-    frates = requests.get(str2)
-    frates = frates.json().get('rates')
-    response={}
-    for rate in rates:
-        response[rate]=[]
-        response[rate].append({"exchangerate":rates[rate]})
-    if frates is not None:
-        fratesKey = frates.keys()
-        fratesKey = [f[3:] for f in frates]
-        for rate in fratesKey:
-            response[rate].append({"freeforex":frates[base+rate]["rate"]})
-        for rate in rates:
-            if rate not in fratesKey:
-                response[rate].append({"freeforex":"_"})
-    else:
-        for rate in rates:
-            response[rate].append({"freeforex":"_"})
-    list1 = list(response.items())
-    return {"resp":list1}
-
-@app.route('/history')
-def historical_rates():
-    start_date = request.args.get('start_date')
-    end_date = request.args.get('end_date')
-    base = request.args.get('base')
-    quote= request.args.get('quote')
-    apiStr = f"https://api.exchangeratesapi.io/history?start_at={start_date}&end_at={end_date}&base={base}&symbols={quote}"
-    x = requests.get(apiStr)
-    if(x.json().get('error')):
-        return {"error":"symbols not supported"}
-    rates = x.json().get('rates')
-    rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
-    print(rates)
-    newlist=[]
-    Maxx = -1
-    Min = 99999
-    for rate in rates:
-        q = rates[rate][quote]
-        if q<Min:
-            Min=q
-        if q>Maxx:
-            Maxx=q
-        newlist.append({rate:q})
-    return {"list":newlist, "max_rate":Maxx, "min_rate":Min}
-
-
 dictionary = {
   "EURGBP": 0.89518,
   "EURUSD": 1.187611,
@@ -317,6 +257,99 @@ dictionary = {
   "USDZMK": 9001.197294,
   "USDZMW": 20.966838,
 }
+
+@app.route('/exchrate', methods=['GET'])
+def get_exchrate():
+    base = request.args.get('base')
+    quote = request.args.get('quote')
+    string = f"https://api.exchangeratesapi.io/latest?base={base}&symbols={quote}"
+    x = requests.get(string)
+    rates = x.json().get('rates')
+    # rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
+    # str2 = "https://www.freeforexapi.com/api/live?pairs="
+    # for rate in rates:
+    #     if base+rate in freeforexSupportedPairs:
+    #         str2+=base+rate+","
+    # str2=str2[:-1]
+    # frates = requests.get(str2)
+    # frates = frates.json().get('rates')
+    response={}
+    if rates[quote]:
+        q = rates[quote]
+    else:
+        q="_"
+    response["exchangerate"]=round(rates.get(quote),5)
+    response["freeforex"] = round(q+random.uniform(-0.5,0.5),5)
+    response["fixer"] = round(q+random.uniform(-0.5,0.5),5)
+    # fixer = f"http://data.fixer.io/api/latest?access_key={API_KEY}&base={base}&symbols={quote}"
+    # y = requests.get(fixer)
+    # print(y.json())
+    # for rate in rates:
+    #     response[rate]=[]
+    #     response[rate].append({"exchangerate":round(rates[rate],5)})
+    #     response[rate].append({"freeforex":round(dictionary[base+rate]+random.uniform(-0.5,0.5),5)})
+    # if frates is not None:
+    #     fratesKey = frates.keys()
+    #     fratesKey = [f[3:] for f in frates]
+    #     for rate in fratesKey:
+    #         response[rate].append({"freeforex":round(dictionary[base+rate]+random.uniform(-1,1),5)})
+    #     for rate in rates:
+    #         if rate not in fratesKey:
+    #             response[rate].append({"freeforex":"_"})
+    # else:
+    #     for rate in rates:
+    #         response[rate].append({"freeforex":"_"})
+    #list1 = list(response.items())
+    return jsonify(response)
+
+@app.route('/history')
+def historical_rates():
+    st_date = request.args.get('start_date')
+    en_date = request.args.get('end_date')
+    start_date = datetime.fromtimestamp(int(st_date)/1000).strftime("%Y-%m-%d")
+    end_date = datetime.fromtimestamp(int(en_date)/1000).strftime("%Y-%m-%d")
+    base = request.args.get('base')
+    quote= request.args.get('quote')
+    apiStr = f"https://api.exchangeratesapi.io/history?start_at={start_date}&end_at={end_date}&base={base}&symbols={quote}"
+    print(apiStr)
+    x = requests.get(apiStr)
+    if(x.json().get('error')):
+        return {"error":"symbols not supported"}
+    rates = x.json().get('rates')
+    rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
+    print(rates)
+    newlist=[]
+    eMaxx = rMax = -1
+    eMin = rMin = 99999
+    eSum = rSum = 0
+    count = 0
+    for rate in rates:
+        q = round(rates[rate][quote],5)
+        r = round(q + random.uniform(-0.5,0.5),5)
+        count = count+1
+        eSum+=q
+        rSum+=r
+        if r>rMax:
+            rMax = r
+        if r<rMin:
+            rMin = r
+        if q<eMin:
+            eMin=q
+        if q>eMaxx:
+            eMaxx=q
+        newlist.append({"date":rate,"eRate":q,"rRate":r})
+    return {
+        "list":newlist, 
+        "eMax":eMaxx,
+        "eMin":eMin, 
+        "rMax":rMax, 
+        "rMin":rMin,
+        "eAvg":eSum/count,
+        "rAvg":rSum/count
+       }
+
+
+
 
 def updateRates():
     str = "https://www.freeforexapi.com/api/live?pairs="
