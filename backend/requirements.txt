@@ -23,4 +23,3 @@ tensorflow==1.13.1
 keras==2.2.4
 pandas==1.0.3
 numpy==1.17.0
-pickle==4.0
