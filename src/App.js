@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Selector from "./Components/Selector";
 import { FcLineChart } from "react-icons/fc";
 import HistoricalGraph from "./Components/HistoricalGraph";
+import Displayrates from "./Components/Displayrates";
 import LiveRates from "./Components/LiveRates";
 import News from "./Components/News";
 import LiveGraph from "./Components/LiveGraph";
@@ -231,8 +232,11 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-12 selector">
+          <div className="col-sm-8 selector">
             <HistoricalGraph />
+          </div>
+          <div className="col-sm-4 selector">
+            <Displayrates />
           </div>
         </div>
       </div>
