@@ -13,6 +13,7 @@ class App extends Component {
     selection: "USDINR",
     base: "USD",
     history: "",
+    refreshRate: 3000,
   };
 
   constructor(props) {
@@ -62,7 +63,43 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-8 selector">
+          <div className="col-sm-4 selector">
+            <div
+              className="historical-header"
+              style={{ marginLeft: "-5px", marginRight: "-5px" }}
+            >
+              Providers
+            </div>
+            <p
+              id="ratesDisplay"
+              style={{ marginTop: "5px", marginBottom: "5px" }}
+            >
+              <small className="text-sm text-muted">ExchangeRatesApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">FreeForexApi </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-right text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+              <br />
+              <small className="text-sm text-muted">Fixer.io </small>
+              <small
+                style={{ float: "right" }}
+                className={"text-sm text-" + this.state.updateRate}
+              >
+                {this.state.history}
+              </small>
+            </p>
+          </div>
+          <div className="col-sm-4 selector">
             <LiveRates />
           </div>
 
@@ -115,46 +152,7 @@ class App extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-4 selector">
-            <p
-              id="ratesDisplay"
-              style={{ marginTop: "5px", marginBottom: "5px" }}
-            >
-              <small className="text-sm text-muted">RandomApi </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-right text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-              <br />
-              <small className="text-sm text-muted">LProvider </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-right text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-              <br />
-              <small className="text-sm text-muted">ExchangeRatesApi </small>
-              <small
-                style={{ float: "right" }}
-                className={"text-sm text-" + this.state.updateRate}
-              >
-                {this.state.history}
-              </small>
-            </p>
-            {/* <hr
-              style={{
-                borderTop: "10px solid #202a43",
-                marginLeft: "-10px",
-                marginRight: "-5px",
-              }}
-            /> */}
-          </div>
-          <div className="col-sm-4 selector">
-            <Convertor />
-          </div>
+          <div className="col-sm-4 selector"></div>
         </div>
       </div>
     );

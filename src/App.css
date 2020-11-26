@@ -178,6 +178,7 @@ body {
   background-color: #293755af;
   border: 8px solid #202a43;
   padding: 4px;
+  height: 100%;
 }
 
 .rateDisplay {

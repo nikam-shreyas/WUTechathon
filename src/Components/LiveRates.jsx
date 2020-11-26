@@ -15,6 +15,7 @@ class LiveRates extends Component {
     this.fetchRates = this.fetchRates.bind(this);
   }
   fetchRates() {
+    console.log(this.state.refreshRate);
     setInterval(() => {
       fetch("http://localhost:5000/getTop", {
         headers: {
@@ -42,7 +43,7 @@ class LiveRates extends Component {
           this.setState({ rates: temp });
           this.setState({ isLoaded: true });
         });
-    }, 5000);
+    }, 3000);
   }
   componentDidMount() {
     this.fetchRates();

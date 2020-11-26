@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { list2 } from "../Helper/List";
 class Convertor extends Component {
-  state = { base: "USD", quote: "INR", amount: 1, convert: 1, reverse: 1 };
+  state = {
+    base: "USD",
+    quote: "INR",
+    amount: 1,
+    convert: 1,
+    reverse: 1,
+    timestamp: "",
+  };
   constructor(props) {
     super(props);
     this.fetchData = this.fetchData.bind(this);
@@ -15,6 +22,8 @@ class Convertor extends Component {
     this.fetchData();
   }
   fetchData() {
+    let tempRate = "",
+      tempRev = "";
     fetch(
       "https://api.exchangeratesapi.io/latest?symbols=" +
         this.state.quote +
@@ -23,11 +32,17 @@ class Convertor extends Component {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        tempRate = Number(res["rates"][this.state.quote]).toFixed(5);
+        tempRev = Number(1 / tempRate).toFixed(5);
+      })
+      .then(() => {
         this.setState({
-          convert: Number(res["rates"][this.state.quote]).toFixed(5),
+          convert: tempRate,
+          reverse: tempRev,
+          timestamp: new Date().toUTCString(),
         });
-        this.setState({ reverse: Number(1 / this.state.convert).toFixed(5) });
+        document.getElementById("convertFrom").value = 1;
+        document.getElementById("convertTo").value = this.state.convert;
       });
   }
   handleBaseChange(e) {
@@ -144,12 +159,26 @@ class Convertor extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-12 mt-2">
-            <center>
-              <small className="text-muted text-sm">
-                Current Rate is: {this.state.convert}
-              </small>
-            </center>
+          <div className="col-sm-12 mt-3 mb-2 ml-1">
+            <small style={{ fontSize: "15px" }} className="text-muted text-sm">
+              <small style={{ color: "white" }}>{this.state.base}</small> &gt;{" "}
+              <small style={{ color: "white" }}>{this.state.quote}</small> Rate
+              is: <small style={{ color: "white" }}>{this.state.convert}</small>{" "}
+              <br />
+              <small style={{ color: "white" }}>
+                {this.state.quote}
+              </small> &gt;{" "}
+              <small style={{ color: "white" }}>{this.state.base}</small> Rate
+              is: <small style={{ color: "white" }}>{this.state.reverse}</small>
+              <br />
+              <p className="mt-2" style={{ color: "white", fontSize: "12px" }}>
+                Rate Details: {this.state.base}/{this.state.quote} for the
+                24-hour period ending at{" "}
+                <b style={{ fontWeight: "bold", color: "#49aff2" }}>
+                  {this.state.timestamp}
+                </b>
+              </p>
+            </small>
           </div>
         </div>
       </div>
