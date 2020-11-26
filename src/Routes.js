@@ -1,1 +1,1 @@
-export const APP = '/Fxsimplified';
+export const APP = '/';
