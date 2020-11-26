@@ -9,6 +9,9 @@ import random
 from datetime import datetime,timedelta
 from time import strftime
 from flask_cors import CORS
+import numpy as np
+import pickle
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -449,6 +452,115 @@ def getHistory():
             }
         )
     return jsonify(mylist)
+
+
+dataset = "Foreign_Exchange_Rates.csv"
+DataSet = pd.read_csv(dataset)
+del DataSet['Unnamed: 0']
+del DataSet['Time Serie']
+DataSet = DataSet[DataSet['INDIA - INDIAN RUPEE/US$']!='ND'] 
+
+#USDINR
+USDINR = DataSet['INDIA - INDIAN RUPEE/US$']
+USDINR = USDINR.values
+USDINR = USDINR.astype('float32')
+max_value_USDINR = USDINR.max()
+min_value_USDINR = USDINR.min()
+
+#USDEUR
+USDEUR = DataSet['EURO AREA - EURO/US$']
+USDEUR = USDEUR.values
+USDEUR = USDEUR.astype('float32')
+max_value_USDEUR = USDEUR.max()
+min_value_USDEUR = USDEUR.min()
+
+#USDGBP
+USDGBP = DataSet['UNITED KINGDOM - UNITED KINGDOM POUND/US$']
+USDGBP = USDGBP.values
+USDGBP = USDGBP.astype('float32')
+max_value_USDGBP = USDGBP.max()
+min_value_USDGBP = USDGBP.min()
+
+#USDYEN
+USDYEN = DataSet['JAPAN - YEN/US$']
+USDYEN = USDYEN.values
+USDYEN = USDYEN.astype('float32')
+max_value_USDYEN = USDYEN.max()
+min_value_USDYEN = USDYEN.min()
+
+#LSTM Model 
+def prediction_model(today_USDINR,today_USDEUR,today_USDGBP,today_USDYEN):
+    filename_USDINR = "USDINR_model.sav"
+    filename_USDEUR = "USDEUR_model.sav"
+    filename_USDGBP = "USDGBP_model.sav"
+    filename_USDYEN = "USDYEN_model.sav"
+
+    result = []
+
+    loaded_model_USDINR = pickle.load(open(filename_USDINR,"rb")) #load the USDINR model
+    tom_USDINR = loaded_model_USDINR.predict(today_USDINR)
+    result_USDINR = (tom_USDINR * (max_value_USDINR - min_value_USDINR)) + min_value_USDINR
+
+    loaded_model_USDEUR = pickle.load(open(filename_USDEUR,"rb")) #load the USDEUR model
+    tom_USDEUR = loaded_model_USDEUR.predict(today_USDEUR)
+    result_USDEUR = (tom_USDEUR * (max_value_USDEUR - min_value_USDEUR)) + min_value_USDEUR
+
+    loaded_model_USDGBP = pickle.load(open(filename_USDGBP,"rb")) #load the USDGBP model
+    tom_USDGBP = loaded_model_USDGBP.predict(today_USDGBP)
+    result_USDGBP = (tom_USDGBP * (max_value_USDGBP - min_value_USDGBP)) + min_value_USDGBP
+
+    loaded_model_USDYEN = pickle.load(open(filename_USDYEN,"rb")) #load the USDYEN model
+    tom_USDYEN = loaded_model_USDYEN.predict(today_USDYEN)
+    result_USDYEN = (tom_USDEUR * (max_value_USDYEN - min_value_USDYEN)) + min_value_USDYEN
+
+
+    result.append( round(result_USDINR.tolist()[0][0],3) )
+    result.append( round(result_USDEUR.tolist()[0][0],3) )
+    result.append( round(result_USDGBP.tolist()[0][0],3) )
+    result.append( round(result_USDYEN.tolist()[0][0],3) )
+
+    return result
+
+#EndPoint is "/enter_info" which directs to prediction.html located in templates.
+#After user inputs the rates,it directs to below function.
+@app.route("/enter_rate",methods = ['POST','GET'])
+def inputRate():
+    if request.method == 'POST':
+        USDINR_rate = request.form['USDINR']
+        USDEUR_rate = request.form['USDEUR']
+        USDGBP_rate = request.form['USDGBP']
+        USDYEN_rate = request.form['USDYEN']
+
+        todayRate = []  #contains the rates entered by the user.
+        
+        today_USDINR = float(USDINR_rate)
+        todayRate.append(today_USDINR)
+        today_USDINR = (today_USDINR - min_value_USDINR) / (max_value_USDINR - min_value_USDINR)
+        today_USDINR = np.array(today_USDINR)
+        today_USDINR = today_USDINR.reshape(1,1,1)
+   
+        today_USDEUR = float(USDEUR_rate)
+        todayRate.append(today_USDEUR)
+        today_USDEUR = (today_USDEUR - min_value_USDEUR) / (max_value_USDEUR - min_value_USDEUR)
+        today_USDEUR = np.array(today_USDEUR)
+        today_USDEUR = today_USDEUR.reshape(1,1,1)
+
+        today_USDGBP = float(USDGBP_rate)
+        todayRate.append(today_USDGBP)
+        today_USDGBP = (today_USDGBP - min_value_USDGBP) / (max_value_USDGBP - min_value_USDGBP)
+        today_USDGBP = np.array(today_USDGBP)
+        today_USDGBP = today_USDGBP.reshape(1,1,1)
+
+        today_USDYEN = float(USDYEN_rate)
+        todayRate.append(today_USDYEN)
+        today_USDYEN = (today_USDYEN - min_value_USDYEN) / (max_value_USDYEN - min_value_USDYEN)
+        today_USDYEN = np.array(today_USDYEN)
+        today_USDYEN = today_USDYEN.reshape(1,1,1)
+
+        result = prediction_model(today_USDINR,today_USDEUR,today_USDGBP,today_USDYEN) #List of prediction results
+    
+        #forex_pairs_considered = ['USD-INR','USD-EUR','USD-GBP','USD-YEN']
+        
 
 
 if __name__ == '__main__':
