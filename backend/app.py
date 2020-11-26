@@ -258,8 +258,8 @@ dictionary = {
   "USDZMW": 20.966838,
 }
 
-@app.route('/exchrate', methods=['GET'])
-def get_exchrate():
+@app.route('/getProviders', methods=['GET'])
+def getProviders():
     base = request.args.get('base')
     quote = request.args.get('quote')
     string = f"https://api.exchangeratesapi.io/latest?base={base}&symbols={quote}"
@@ -301,6 +301,40 @@ def get_exchrate():
     #         response[rate].append({"freeforex":"_"})
     #list1 = list(response.items())
     return jsonify(response)
+
+
+@app.route('/exchrate', methods=['GET'])
+def get_exchrate():
+    string = "https://api.exchangeratesapi.io/latest"
+    base = request.args.get('base')
+    string+="?base="+base
+    x = requests.get(string)
+    rates = x.json().get('rates')
+    rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
+    str2 = "https://www.freeforexapi.com/api/live?pairs="
+    for rate in rates:
+        if base+rate in freeforexSupportedPairs:
+            str2+=base+rate+","
+    str2=str2[:-1]
+    frates = requests.get(str2)
+    frates = frates.json().get('rates')
+    response={}
+    for rate in rates:
+        response[rate]=[]
+        response[rate].append({"exchangerate":rates[rate]})
+    if frates is not None:
+        fratesKey = frates.keys()
+        fratesKey = [f[3:] for f in frates]
+        for rate in fratesKey:
+            response[rate].append({"freeforex":frates[base+rate]["rate"]})
+        for rate in rates:
+            if rate not in fratesKey:
+                response[rate].append({"freeforex":"_"})
+    else:
+        for rate in rates:
+            response[rate].append({"freeforex":"_"})
+    list1 = list(response.items())
+    return {"resp":list1}
 
 @app.route('/history')
 def historical_rates():
@@ -348,9 +382,6 @@ def historical_rates():
         "rAvg":rSum/count
        }
 
-
-
-
 def updateRates():
     str = "https://www.freeforexapi.com/api/live?pairs="
     for rate in freeforexSupportedPairs:
@@ -362,9 +393,6 @@ def updateRates():
     print("updaterates", rates)
     for rate in rates:
         dictionary[rate] = rates[rate]['rate']
-
-
-
 
 @app.route('/getAll', methods=['GET'])
 def getAll():

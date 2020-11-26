@@ -55,6 +55,7 @@ class LiveGraph extends Component {
   render() {
     return (
       <div className="m-2">
+        <center>{this.state.selection}</center>
         {/* {this.state.history[this.state.history.length - 1]["uv"]} */}
         <ResponsiveContainer width="100%" height={150}>
           <AreaChart

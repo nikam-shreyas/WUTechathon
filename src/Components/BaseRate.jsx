@@ -37,8 +37,12 @@ class BaseRate extends Component {
         res["resp"].forEach((element) => {
           let temp = {};
           temp["quote"] = element[0];
-          temp["exchangerate"] = element[1][0]["exchangerate"];
-          temp["freeforex"] = element[1][1]["freeforex"];
+          if (!isNaN(element[1][0]["exchangerate"]))
+            temp["exchangerate"] = element[1][0]["exchangerate"].toFixed(5);
+          else temp["exchangerate"] = "-";
+          if (!isNaN(element[1][1]["freeforex"]))
+            temp["freeforex"] = element[1][1]["freeforex"];
+          else temp["freeforex"] = "-";
           let tempDate = new Date();
           temp["date"] =
             tempDate.getHours() +
@@ -57,6 +61,10 @@ class BaseRate extends Component {
   componentDidMount() {
     this.fetchData();
   }
+  componentWillReceiveProps(props) {
+    this.setState({ base: props.base });
+    this.fetchData();
+  }
   render() {
     if (this.state.isLoaded) {
       return (
@@ -68,36 +76,11 @@ class BaseRate extends Component {
               marginRight: "-4px",
               marginBottom: "10px",
               marginTop: "5px",
+              padding: "7px",
             }}
           >
-            <center>
-              {" "}
-              <button
-                className="btn btn-secondary btn-sm dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Select Base: {this.state.base} {"   "}
-              </button>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="dropdownMenuButton"
-              >
-                {list2.map((e) => (
-                  <a
-                    className="dropdown-item"
-                    onClick={() => {
-                      this.handleSelectionChange({ e });
-                    }}
-                  >
-                    {e}
-                  </a>
-                ))}
-              </div>
-            </center>
+            <small>Exchange Rates </small>
+            <small style={{ float: "right" }}>{this.state.base}</small>
           </div>
           <div className="ratesTable">
             <table>
@@ -121,7 +104,7 @@ class BaseRate extends Component {
                   <br />
                 </td>
               </tr>
-              {this.state.rates.map((element, i) => (
+              {this.state.rates.reverse().map((element, i) => (
                 <tr key={i} className="ratesItem">
                   <td className="rateQuote">
                     {this.state.base + element["quote"]}
