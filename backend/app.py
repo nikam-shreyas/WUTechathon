@@ -12,7 +12,7 @@ from flask_cors import CORS
 import numpy as np
 import pickle
 import pandas as pd
-
+from keras import backend as k
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9db80a7b38ecd1ba9ed4fda7fd38508a'
@@ -518,49 +518,49 @@ def prediction_model(today_USDINR,today_USDEUR,today_USDGBP,today_USDYEN):
     result.append( round(result_USDEUR.tolist()[0][0],3) )
     result.append( round(result_USDGBP.tolist()[0][0],3) )
     result.append( round(result_USDYEN.tolist()[0][0],3) )
-
+    k.clear_session()
     return result
 
 #EndPoint is "/enter_info" which directs to prediction.html located in templates.
 #After user inputs the rates,it directs to below function.
 @app.route("/enter_rate",methods = ['POST','GET'])
 def inputRate():
-    if request.method == 'POST':
-        USDINR_rate = request.form['USDINR']
-        USDEUR_rate = request.form['USDEUR']
-        USDGBP_rate = request.form['USDGBP']
-        USDYEN_rate = request.form['USDYEN']
+    USDINR_rate = request.args.get('USDINR')
+    USDEUR_rate = request.args.get('USDEUR')
+    USDGBP_rate = request.args.get('USDGBP')
+    USDYEN_rate = request.args.get('USDYEN')
 
-        todayRate = []  #contains the rates entered by the user.
-        
-        today_USDINR = float(USDINR_rate)
-        todayRate.append(today_USDINR)
-        today_USDINR = (today_USDINR - min_value_USDINR) / (max_value_USDINR - min_value_USDINR)
-        today_USDINR = np.array(today_USDINR)
-        today_USDINR = today_USDINR.reshape(1,1,1)
-   
-        today_USDEUR = float(USDEUR_rate)
-        todayRate.append(today_USDEUR)
-        today_USDEUR = (today_USDEUR - min_value_USDEUR) / (max_value_USDEUR - min_value_USDEUR)
-        today_USDEUR = np.array(today_USDEUR)
-        today_USDEUR = today_USDEUR.reshape(1,1,1)
-
-        today_USDGBP = float(USDGBP_rate)
-        todayRate.append(today_USDGBP)
-        today_USDGBP = (today_USDGBP - min_value_USDGBP) / (max_value_USDGBP - min_value_USDGBP)
-        today_USDGBP = np.array(today_USDGBP)
-        today_USDGBP = today_USDGBP.reshape(1,1,1)
-
-        today_USDYEN = float(USDYEN_rate)
-        todayRate.append(today_USDYEN)
-        today_USDYEN = (today_USDYEN - min_value_USDYEN) / (max_value_USDYEN - min_value_USDYEN)
-        today_USDYEN = np.array(today_USDYEN)
-        today_USDYEN = today_USDYEN.reshape(1,1,1)
-
-        result = prediction_model(today_USDINR,today_USDEUR,today_USDGBP,today_USDYEN) #List of prediction results
     
-        #forex_pairs_considered = ['USD-INR','USD-EUR','USD-GBP','USD-YEN']
+    todayRate = []
         
+    today_USDINR = float(USDINR_rate)
+    todayRate.append(today_USDINR)
+    today_USDINR = (today_USDINR - min_value_USDINR) / (max_value_USDINR - min_value_USDINR)
+    today_USDINR = np.array(today_USDINR)
+    today_USDINR = today_USDINR.reshape(1,1,1)
+   
+    today_USDEUR = float(USDEUR_rate)
+    todayRate.append(today_USDEUR)
+    today_USDEUR = (today_USDEUR - min_value_USDEUR) / (max_value_USDEUR - min_value_USDEUR)
+    today_USDEUR = np.array(today_USDEUR)
+    today_USDEUR = today_USDEUR.reshape(1,1,1)
+
+    today_USDGBP = float(USDGBP_rate)
+    todayRate.append(today_USDGBP)
+    today_USDGBP = (today_USDGBP - min_value_USDGBP) / (max_value_USDGBP - min_value_USDGBP)
+    today_USDGBP = np.array(today_USDGBP)
+    today_USDGBP = today_USDGBP.reshape(1,1,1)
+
+    today_USDYEN = float(USDYEN_rate)
+    todayRate.append(today_USDYEN)
+    today_USDYEN = (today_USDYEN - min_value_USDYEN) / (max_value_USDYEN - min_value_USDYEN)
+    today_USDYEN = np.array(today_USDYEN)
+    today_USDYEN = today_USDYEN.reshape(1,1,1)
+
+    result = prediction_model(today_USDINR,today_USDEUR,today_USDGBP,today_USDYEN)
+
+    forex = ['USD-INR','USD-EUR','USD-GBP','USD-YEN']
+    return jsonify({"result":result})
 
 
 if __name__ == '__main__':

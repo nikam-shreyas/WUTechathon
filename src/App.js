@@ -10,6 +10,7 @@ import LiveGraph from "./Components/LiveGraph";
 import BaseRate from "./Components/BaseRate";
 import Convertor from "./Components/Convertor";
 import { list2 } from "./Helper/List";
+import Predictions from "./Components/Predictions";
 class App extends Component {
   state = {
     selection: "USDINR",
@@ -93,12 +94,7 @@ class App extends Component {
             <LiveRates base={this.state.base} quote={this.state.quote} />
           </div>
           <div className="col-sm-4 selector">
-            <div
-              className="historical-header"
-              style={{ marginLeft: "-5px", marginRight: "-5px" }}
-            >
-              Select Base and Quote
-            </div>
+            <div className="historical-header">Select Base and Quote</div>
             <div className="row mt-2">
               <div className="col-sm-6">
                 Base:
@@ -174,10 +170,7 @@ class App extends Component {
                 marginLeft: "-4px",
               }}
             />
-            <div
-              className="historical-header"
-              style={{ marginLeft: "-5px", marginRight: "-5px" }}
-            >
+            <div className="historical-header" style={{ marginTop: "-8px" }}>
               <small>Providers</small>
               <small style={{ float: "right" }}>
                 {this.state.base}/{this.state.quote}
@@ -216,8 +209,6 @@ class App extends Component {
             <div
               className="historical-header"
               style={{
-                marginRight: "-5px",
-                marginLeft: "-5px",
                 marginTop: "3px",
                 height: "30px",
               }}
@@ -237,6 +228,11 @@ class App extends Component {
           </div>
           <div className="col-sm-4 selector">
             <Displayrates />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-4 selector">
+            <Predictions />
           </div>
         </div>
       </div>
