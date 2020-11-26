@@ -11,6 +11,5 @@ headers = {
 
 response = requests.request("GET", url, headers=headers, params=querystring)
 
-print(response.text)
 with open('temp.txt','w') as f:
     f.write(response.text)

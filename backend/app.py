@@ -58,7 +58,7 @@ def func_name():
         db.session.add(user)    
         db.session.commit()
     except IntegrityError:
-        print(IntegrityError)
+        # print(IntegrityError)
         db.session.rollback()
         return redirect("http://localhost:3000/Register")
 
@@ -345,13 +345,13 @@ def historical_rates():
     base = request.args.get('base')
     quote= request.args.get('quote')
     apiStr = f"https://api.exchangeratesapi.io/history?start_at={start_date}&end_at={end_date}&base={base}&symbols={quote}"
-    print(apiStr)
+    # print(apiStr)
     x = requests.get(apiStr)
     if(x.json().get('error')):
         return {"error":"symbols not supported"}
     rates = x.json().get('rates')
     rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
-    print(rates)
+    # print(rates)
     newlist=[]
     eMaxx = rMax = -1
     eMin = rMin = 99999
@@ -387,10 +387,10 @@ def updateRates():
     for rate in freeforexSupportedPairs:
         str+=rate+','
     str = str[:-1]
-    print(str)
+    # print(str)
     resp = requests.get(str)
     rates = resp.json().get('rates')
-    print("updaterates", rates)
+    # print("updaterates", rates)
     for rate in rates:
         dictionary[rate] = rates[rate]['rate']
 

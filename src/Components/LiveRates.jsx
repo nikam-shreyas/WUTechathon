@@ -53,7 +53,7 @@ class LiveRates extends Component {
         <div className="container-fluid">
           <div
             className="historical-header"
-            style={{ marginLeft: "-19px", marginRight: "-19px" }}
+            style={{ marginRight: "-15px", marginLeft: "-15px" }}
           >
             Top Rates
           </div>

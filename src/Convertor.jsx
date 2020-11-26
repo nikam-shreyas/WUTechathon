@@ -253,7 +253,7 @@ class Convertor extends Component {
   render() {
     return (
       <>
-        <div className="container">
+        <div className="container-fluid">
           <h5>Convertor</h5>
           <select
             name="from"

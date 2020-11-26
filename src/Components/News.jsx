@@ -55,12 +55,7 @@ class News extends Component {
   render() {
     return (
       <div>
-        <div
-          className="historical-header"
-          style={{ marginRight: "-5px", marginLeft: "-5px" }}
-        >
-          Forex News
-        </div>
+        <div className="historical-header">Forex News</div>
         <div className="example3 mt-1">
           <div className="news-scroll">
             {" "}

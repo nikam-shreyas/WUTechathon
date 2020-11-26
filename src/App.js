@@ -92,12 +92,7 @@ class App extends Component {
             <LiveRates base={this.state.base} quote={this.state.quote} />
           </div>
           <div className="col-sm-4 selector">
-            <div
-              className="historical-header"
-              style={{ marginLeft: "-5px", marginRight: "-5px" }}
-            >
-              Select Base and Quote
-            </div>
+            <div className="historical-header">Select Base and Quote</div>
             <div className="row mt-2">
               <div className="col-sm-6">
                 Base:
@@ -165,6 +160,7 @@ class App extends Component {
             <BaseRate base={this.state.base} />
           </div>
           <div className="col-sm-4 selector">
+            <div className="historical-header">Convertor</div>
             <Convertor base={this.state.base} quote={this.state.quote} />
             <hr
               style={{
@@ -175,7 +171,9 @@ class App extends Component {
             />
             <div
               className="historical-header"
-              style={{ marginLeft: "-5px", marginRight: "-5px" }}
+              style={{
+                marginTop: "-7px",
+              }}
             >
               <small>Providers</small>
               <small style={{ float: "right" }}>
@@ -215,8 +213,6 @@ class App extends Component {
             <div
               className="historical-header"
               style={{
-                marginRight: "-5px",
-                marginLeft: "-5px",
                 marginTop: "3px",
                 height: "30px",
               }}

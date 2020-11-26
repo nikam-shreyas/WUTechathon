@@ -81,13 +81,7 @@ class Convertor extends Component {
   }
   render() {
     return (
-      <div className="container">
-        <div
-          className="historical-header"
-          style={{ marginRight: "-19px", marginLeft: "-19px" }}
-        >
-          Convertor
-        </div>
+      <div className="container-fluid">
         <div className="row">
           <div className="col-sm-5">
             Base: {"   "}

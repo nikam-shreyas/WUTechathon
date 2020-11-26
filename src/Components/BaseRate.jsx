@@ -87,15 +87,7 @@ class BaseRate extends Component {
     if (this.state.isLoaded) {
       return (
         <div>
-          <div
-            style={{
-              marginLeft: "-4px",
-              marginRight: "-4px",
-            }}
-            className="historical-header mb-2"
-          >
-            Sorted Rates
-          </div>
+          <div className="historical-header mb-2">Sorted Rates</div>
           <div className="ratesTable">
             <table>
               <tr className="ratesHeader">
