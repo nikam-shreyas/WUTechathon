@@ -16,28 +16,133 @@ import { FaDownload } from "react-icons/fa";
 import { list } from "../Helper/List";
 
 const initialState = {
-  data: [
-    { date: "1/11/20", best_rate: 1.79, worst_rate: 0.4 },
-    { date: "2/11/20", best_rate: 2.39, worst_rate: 1.24 },
-    { date: "3/11/20", best_rate: 1.37, worst_rate: 1.29 },
-    { date: "4/11/20", best_rate: 1.16, worst_rate: 0.57 },
-    { date: "5/11/20", best_rate: 2.29, worst_rate: 0.76 },
-    { date: "6/11/20", best_rate: 3, worst_rate: 1 },
-    { date: "7/11/20", best_rate: 0.53, worst_rate: 0.02 },
-    { date: "8/11/20", best_rate: 2.52, worst_rate: 1.2 },
-    { date: "9/11/20", best_rate: 1.79, worst_rate: 0.89 },
-    { date: "10/11/20", best_rate: 2.94, worst_rate: 1.19 },
-    { date: "11/11/20", best_rate: 4.3, worst_rate: 2.0 },
-    { date: "12/11/20", best_rate: 4.41, worst_rate: 1 },
-    { date: "13/11/20", best_rate: 2.1, worst_rate: 1.0 },
-    { date: "14/11/20", best_rate: 8, worst_rate: 3 },
-    { date: "15/11/20", best_rate: 4, worst_rate: 1 },
-    { date: "16/11/20", best_rate: 9, worst_rate: 2 },
-    { date: "17/11/20", best_rate: 3, worst_rate: 1 },
-    { date: "18/11/20", best_rate: 2, worst_rate: 0 },
-    { date: "19/11/20", best_rate: 3, worst_rate: 1.47 },
-    { date: "20/11/20", best_rate: 7, worst_rate: 2.09 },
-  ],
+  data: {
+    eAvg: 74.23199,
+    eMax: 74.68917,
+    eMin: 73.75074,
+    fAvg: 74.26988,
+    fMax: 74.91981,
+    fMin: 73.58576,
+    list: [
+      {
+        date: "2020-11-02",
+        exchangeRateApi: 74.45546,
+        fixerIo: 74.71355,
+        randomApi: 74.73739,
+      },
+      {
+        date: "2020-11-03",
+        exchangeRateApi: 74.40566,
+        fixerIo: 73.93616,
+        randomApi: 74.77003,
+      },
+      {
+        date: "2020-11-04",
+        exchangeRateApi: 74.39254,
+        fixerIo: 74.03445,
+        randomApi: 74.38915,
+      },
+      {
+        date: "2020-11-05",
+        exchangeRateApi: 74.01139,
+        fixerIo: 73.81047,
+        randomApi: 74.00777,
+      },
+      {
+        date: "2020-11-06",
+        exchangeRateApi: 74.14364,
+        fixerIo: 74.04037,
+        randomApi: 74.00393,
+      },
+      {
+        date: "2020-11-09",
+        exchangeRateApi: 73.75074,
+        fixerIo: 73.58576,
+        randomApi: 73.62186,
+      },
+      {
+        date: "2020-11-10",
+        exchangeRateApi: 74.24331,
+        fixerIo: 74.02521,
+        randomApi: 74.25482,
+      },
+      {
+        date: "2020-11-11",
+        exchangeRateApi: 74.41951,
+        fixerIo: 74.28252,
+        randomApi: 74.43386,
+      },
+      {
+        date: "2020-11-12",
+        exchangeRateApi: 74.68917,
+        fixerIo: 74.64843,
+        randomApi: 74.42868,
+      },
+      {
+        date: "2020-11-13",
+        exchangeRateApi: 74.63902,
+        fixerIo: 74.23406,
+        randomApi: 74.24795,
+      },
+      {
+        date: "2020-11-16",
+        exchangeRateApi: 74.45435,
+        fixerIo: 74.91981,
+        randomApi: 74.85222,
+      },
+      {
+        date: "2020-11-17",
+        exchangeRateApi: 74.46768,
+        fixerIo: 74.89152,
+        randomApi: 74.6961,
+      },
+      {
+        date: "2020-11-18",
+        exchangeRateApi: 74.15824,
+        fixerIo: 74.5095,
+        randomApi: 74.40259,
+      },
+      {
+        date: "2020-11-19",
+        exchangeRateApi: 74.20301,
+        fixerIo: 74.29499,
+        randomApi: 74.36263,
+      },
+      {
+        date: "2020-11-20",
+        exchangeRateApi: 74.13049,
+        fixerIo: 74.39453,
+        randomApi: 73.90655,
+      },
+      {
+        date: "2020-11-23",
+        exchangeRateApi: 74.03075,
+        fixerIo: 74.3368,
+        randomApi: 74.45988,
+      },
+      {
+        date: "2020-11-24",
+        exchangeRateApi: 74.08723,
+        fixerIo: 74.53711,
+        randomApi: 73.84515,
+      },
+      {
+        date: "2020-11-25",
+        exchangeRateApi: 73.88898,
+        fixerIo: 73.95804,
+        randomApi: 74.25654,
+      },
+      {
+        date: "2020-11-26",
+        exchangeRateApi: 73.83655,
+        fixerIo: 73.97443,
+        randomApi: 74.21473,
+      },
+    ],
+    rAvg: 74.3101,
+    rMax: 74.85222,
+    rMin: 73.62186,
+  },
   left: "dataMin",
   right: "dataMax",
   refAreaLeft: "",
@@ -96,11 +201,11 @@ class HistoricalGraph extends Component {
 
   fetchData() {
     fetch(
-      "http://localhost:5000/getHistory?start=" +
+      "http://localhost:5000/history?start_date=" +
         this.state.fromDate +
-        "&end=" +
+        "&end_date=" +
         this.state.toDate +
-        "&pair=" +
+        "&selection=" +
         this.state.selection,
       {
         headers: {
@@ -161,7 +266,7 @@ class HistoricalGraph extends Component {
     return str;
   }
   downloadData() {
-    var json = this.state.data;
+    var json = this.state.data["list"];
     var csv = this.JSON2CSV(json);
     var downloadLink = document.createElement("a");
     var blob = new Blob(["\ufeff", csv]);
@@ -194,7 +299,7 @@ class HistoricalGraph extends Component {
     } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div>
         <div className="historical-header">
           <div className="row">
             <div className="col-sm-12">
@@ -215,8 +320,9 @@ class HistoricalGraph extends Component {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenuButton"
               >
-                {list.map((e) => (
+                {list.map((e, i) => (
                   <a
+                    key={i}
                     className="dropdown-item"
                     onClick={() => {
                       this.handleSelectionChange({ e });
@@ -270,8 +376,8 @@ class HistoricalGraph extends Component {
           </div>
         </div>
         <div className="container-fluid mt-2">
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart width={800} height={250} data={this.state.data}>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart width={800} height={200} data={this.state.data["list"]}>
               <XAxis
                 allowDataOverflow
                 dataKey="date"
@@ -290,17 +396,25 @@ class HistoricalGraph extends Component {
               <Line
                 yAxisId="1"
                 type="natural"
-                name="Daily Best Rate"
-                dataKey="best_rate"
-                stroke="#27A345"
+                name="exchangeRateApi"
+                dataKey="exchangeRateApi"
+                stroke="red"
                 animationDuration={300}
               />
               <Line
                 yAxisId="1"
                 type="natural"
-                name="Daily Worst Rate"
-                dataKey="worst_rate"
-                stroke="#B93249"
+                name="fixer.io"
+                dataKey="fixerIo"
+                stroke="green"
+                animationDuration={300}
+              />
+              <Line
+                yAxisId="1"
+                type="natural"
+                name="randomApi"
+                dataKey="randomApi"
+                stroke="blue"
                 animationDuration={300}
               />
               {refAreaLeft && refAreaRight ? (
@@ -313,8 +427,6 @@ class HistoricalGraph extends Component {
               ) : null}
             </LineChart>
           </ResponsiveContainer>
-          <br />
-         
         </div>
       </div>
     );

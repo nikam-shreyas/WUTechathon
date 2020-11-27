@@ -157,13 +157,16 @@ class App extends Component {
             <News />
           </div>
         </div>
-        <div className="row ">
+        <div className="row">
           <div className="col-sm-3 selector">
             <BaseRate base={this.state.base} />
           </div>
-          <div className="col-sm-4 selector">
+          <div className="col-sm-5 selector">
             <div className="historical-header">Convertor</div>
             <Convertor base={this.state.base} quote={this.state.quote} />
+          </div>
+          <div className="col-sm-4 selector">
+            <Predictions />
             <hr
               style={{
                 borderTop: "10px solid #202a43",
@@ -189,7 +192,7 @@ class App extends Component {
                 {this.state.history1}
               </small>
               <br />
-              <small className="text-sm text-muted">FreeForexApi </small>
+              <small className="text-sm text-muted">Fixer.io </small>
               <small
                 style={{ float: "right" }}
                 className={"text-right text-sm text-" + this.state.updateRate2}
@@ -197,7 +200,7 @@ class App extends Component {
                 {this.state.history2}
               </small>
               <br />
-              <small className="text-sm text-muted">Fixer.io </small>
+              <small className="text-sm text-muted">RandomApi</small>
               <small
                 style={{ float: "right" }}
                 className={"text-sm text-" + this.state.updateRate3}
@@ -206,7 +209,12 @@ class App extends Component {
               </small>
             </p>
           </div>
-          <div className="col-sm-5 selector">
+        </div>
+        <div className="row">
+          <div className="col-sm-8 selector">
+            <HistoricalGraph />
+          </div>
+          <div className="col-sm-4 selector">
             <div
               className="historical-header"
               style={{
@@ -221,14 +229,6 @@ class App extends Component {
               selection={this.state.base + this.state.quote}
               data={this.state.history}
             />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-8 selector">
-            <HistoricalGraph />
-          </div>
-          <div className="col-sm-4 selector">
-            <Predictions />
           </div>
         </div>
       </div>

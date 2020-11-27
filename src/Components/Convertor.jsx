@@ -7,6 +7,7 @@ class Convertor extends Component {
     convert: 1,
     reverse: 1,
     timestamp: "",
+    interbank: 0,
   };
   constructor(props) {
     super(props);
@@ -58,13 +59,16 @@ class Convertor extends Component {
   handleConvertChange(e) {
     this.setState({ amount: e.target.value });
     document.getElementById("convertTo").value = Number(
-      e.target.value * this.state.convert
+      e.target.value * this.state.convert * (1 - this.state.interbank / 100)
     ).toFixed(5);
   }
   handleReverseChange(e) {
     document.getElementById("convertFrom").value = Number(
-      e.target.value * this.state.reverse
+      e.target.value * this.state.reverse * (1 + this.state.interbank / 100)
     ).toFixed(5);
+  }
+  handleSelectionChange(e) {
+    this.setState({ interbank: e });
   }
   handleInterchange() {
     let temp = this.state.base;
@@ -81,21 +85,28 @@ class Convertor extends Component {
     return (
       <div className="container-fluid">
         <div className="row mt-2 mb-2">
-          <div className="col-sm-5">
+          <div className="col-sm-6">
             Base: {this.state.base}
+            <br />
+            <small style={{ fontSize: "12px", color: "gray" }}>
+              (Currency I have)
+            </small>
             <input
-              className="form-control"
+              className="form-control mt-2"
               type="number"
               name="convertFrom"
               id="convertFrom"
               onChange={this.handleConvertChange}
             />
           </div>
-          <div className="col-sm-2"></div>
-          <div className="col-sm-5">
+          <div className="col-sm-6">
             Quote: {this.state.quote}
+            <br />
+            <small style={{ fontSize: "12px", color: "gray" }}>
+              (Currency I want)
+            </small>
             <input
-              className="form-control"
+              className="form-control mt-2"
               type="number"
               name="convertTo"
               id="convertTo"
@@ -105,16 +116,82 @@ class Convertor extends Component {
         </div>
         <div className="row">
           <div className="col-sm-12 mt-3 mb-2 ml-1">
+            Interbank rate for conversion (+/-):
+            <button
+              className="btn btn-info btn-sm dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {this.state.interbank} % {"  "}
+            </button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(0);
+                }}
+              >
+                +/- 0%
+              </a>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(1);
+                }}
+              >
+                +/- 1%
+              </a>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(2);
+                }}
+              >
+                +/- 2% (Typical ATM Rate)
+              </a>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(3);
+                }}
+              >
+                +/- 3% (Typical Credit Card Rate)
+              </a>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(4);
+                }}
+              >
+                +/- 4%
+              </a>
+              <a
+                className="dropdown-item"
+                onClick={() => {
+                  this.handleSelectionChange(5);
+                }}
+              >
+                +/- 5% (Typical Kiosk Rate)
+              </a>
+            </div>
+            <br />
+            <br />
+            <br />
             <small style={{ fontSize: "15px" }} className="text-muted text-sm">
-              <small style={{ color: "white" }}>{this.state.base}</small> &gt;{" "}
-              <small style={{ color: "white" }}>{this.state.quote}</small> Rate
-              is: <small style={{ color: "white" }}>{this.state.convert}</small>{" "}
+              The Conversion Rate for{" "}
+              <small style={{ color: "white" }}>{this.state.base}</small> -&gt;{" "}
+              <small style={{ color: "white" }}>{this.state.quote}</small> is:{" "}
+              <small style={{ color: "white" }}>{this.state.convert}</small>{" "}
               <br />
+              The Conversion Rate for{" "}
               <small style={{ color: "white" }}>
                 {this.state.quote}
-              </small> &gt;{" "}
-              <small style={{ color: "white" }}>{this.state.base}</small> Rate
-              is: <small style={{ color: "white" }}>{this.state.reverse}</small>
+              </small> -&gt;{" "}
+              <small style={{ color: "white" }}>{this.state.base}</small> is:{" "}
+              <small style={{ color: "white" }}>{this.state.reverse}</small>
               <br />
               <p className="mt-2" style={{ color: "white", fontSize: "12px" }}>
                 {this.state.base}/{this.state.quote} for the 24-hour period

@@ -332,7 +332,7 @@ body {
 .ratesTable {
   font-size: 12px;
   text-align: right;
-  height: 230px;
+  height: 200px;
   overflow-y: hidden;
 }
 .ratesTable table {

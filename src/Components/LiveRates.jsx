@@ -50,37 +50,34 @@ class LiveRates extends Component {
   render() {
     if (this.state.isLoaded) {
       return (
-        <div className="container-fluid">
-          <div
-            className="historical-header"
-            style={{ marginRight: "-15px", marginLeft: "-15px" }}
-          >
-            Top Rates
-          </div>
-          <div className="row">
-            <div className="col-sm-3 rateDisplay">
-              <h3>{this.state.rates[0].name}</h3>
-              <small className={"text-" + this.state.rates[0].status}>
-                {this.state.rates[0].rate}
-              </small>
-            </div>
-            <div className="col-sm-3 rateDisplay">
-              <h3>{this.state.rates[1].name}</h3>
-              <small className={"text-" + this.state.rates[1].status}>
-                {this.state.rates[1].rate}
-              </small>
-            </div>
-            <div className="col-sm-3 rateDisplay">
-              <h3>{this.state.rates[2].name}</h3>
-              <small className={"text-" + this.state.rates[2].status}>
-                {this.state.rates[2].rate}
-              </small>
-            </div>
-            <div className="col-sm-3 rateDisplay">
-              <h3>{this.state.rates[3].name}</h3>
-              <small className={"text-" + this.state.rates[3].status}>
-                {this.state.rates[3].rate}
-              </small>
+        <div>
+          <div className="historical-header">Top Rates</div>
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-3 rateDisplay">
+                <h3>{this.state.rates[0].name}</h3>
+                <small className={"text-" + this.state.rates[0].status}>
+                  {this.state.rates[0].rate}
+                </small>
+              </div>
+              <div className="col-sm-3 rateDisplay">
+                <h3>{this.state.rates[1].name}</h3>
+                <small className={"text-" + this.state.rates[1].status}>
+                  {this.state.rates[1].rate}
+                </small>
+              </div>
+              <div className="col-sm-3 rateDisplay">
+                <h3>{this.state.rates[2].name}</h3>
+                <small className={"text-" + this.state.rates[2].status}>
+                  {this.state.rates[2].rate}
+                </small>
+              </div>
+              <div className="col-sm-3 rateDisplay">
+                <h3>{this.state.rates[3].name}</h3>
+                <small className={"text-" + this.state.rates[3].status}>
+                  {this.state.rates[3].rate}
+                </small>
+              </div>
             </div>
           </div>
         </div>
