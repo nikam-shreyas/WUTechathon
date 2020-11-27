@@ -8,7 +8,7 @@ class Predictions extends Component {
       USDINR: 74.80968,
       USDJPY: 104.27289,
     },
-    res: [73.599, 0.836, 0.749, 97.117],
+    res: [73.599, 0.836, 1.749, 103.117],
     timestamp: new Date().toLocaleString(),
   };
   componentDidMount() {
