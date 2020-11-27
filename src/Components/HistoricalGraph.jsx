@@ -376,57 +376,116 @@ class HistoricalGraph extends Component {
           </div>
         </div>
         <div className="container-fluid mt-2">
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart width={800} height={200} data={this.state.data["list"]}>
-              <XAxis
-                allowDataOverflow
-                dataKey="date"
-                domain={[left, right]}
-                type="category"
-                tick={{ fontSize: 10 }}
-              />
-              <YAxis
-                allowDataOverflow
-                domain={[bottom, top]}
-                yAxisId="1"
-                tick={{ fontSize: 8, fill: "white" }}
-              />
-              <Tooltip />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Line
-                yAxisId="1"
-                type="natural"
-                name="exchangeRateApi"
-                dataKey="exchangeRateApi"
-                stroke="red"
-                animationDuration={300}
-              />
-              <Line
-                yAxisId="1"
-                type="natural"
-                name="fixer.io"
-                dataKey="fixerIo"
-                stroke="green"
-                animationDuration={300}
-              />
-              <Line
-                yAxisId="1"
-                type="natural"
-                name="randomApi"
-                dataKey="randomApi"
-                stroke="blue"
-                animationDuration={300}
-              />
-              {refAreaLeft && refAreaRight ? (
-                <ReferenceArea
-                  yAxisId="1"
-                  x1={refAreaLeft}
-                  x2={refAreaRight}
-                  strokeOpacity={0.3}
-                />
-              ) : null}
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="row">
+            <div className="col-sm-7">
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart
+                  width={800}
+                  height={200}
+                  data={this.state.data["list"]}
+                >
+                  <XAxis
+                    allowDataOverflow
+                    dataKey="date"
+                    domain={[left, right]}
+                    type="category"
+                    tick={{ fontSize: 10 }}
+                  />
+                  <YAxis
+                    allowDataOverflow
+                    domain={[bottom, top]}
+                    yAxisId="1"
+                    tick={{ fontSize: 8, fill: "white" }}
+                  />
+                  <Tooltip />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Line
+                    yAxisId="1"
+                    type="natural"
+                    name="exchangeRateApi"
+                    dataKey="exchangeRateApi"
+                    stroke="red"
+                    animationDuration={300}
+                  />
+                  <Line
+                    yAxisId="1"
+                    type="natural"
+                    name="fixer.io"
+                    dataKey="fixerIo"
+                    stroke="green"
+                    animationDuration={300}
+                  />
+                  <Line
+                    yAxisId="1"
+                    type="natural"
+                    name="randomApi"
+                    dataKey="randomApi"
+                    stroke="blue"
+                    animationDuration={300}
+                  />
+                  {refAreaLeft && refAreaRight ? (
+                    <ReferenceArea
+                      yAxisId="1"
+                      x1={refAreaLeft}
+                      x2={refAreaRight}
+                      strokeOpacity={0.3}
+                    />
+                  ) : null}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="col-sm-5">
+              <div
+                className="container ratesTable mt-4"
+                style={{ height: "100%", float: "left", fontSize: "15px" }}
+              >
+                <table className="table-border">
+                  <tr className="ratesHeader" style={{ color: "#49AFF2" }}>
+                    <th></th>
+                    <th>Min.</th>
+                    <th>Avg.</th>
+                    <th>Max.</th>
+                  </tr>
+                  <tr className="ratesItem" style={{ fontSize: "15px" }}>
+                    <td style={{ color: "#49AFF2" }}>Exchange Rates Api</td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["eMin"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["eAvg"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["eMax"]}
+                    </td>
+                  </tr>
+                  <tr className="ratesItem" style={{ fontSize: "15px" }}>
+                    <td style={{ color: "#49AFF2" }}>Fixer.io</td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["fMin"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["fAvg"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["fMax"]}
+                    </td>
+                  </tr>
+                  <tr className="ratesItem" style={{ fontSize: "15px" }}>
+                    <td style={{ color: "#49AFF2" }}>Random Api</td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["rMin"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["rAvg"]}
+                    </td>
+                    <td style={{ color: "white" }}>
+                      {this.state.data["rMax"]}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

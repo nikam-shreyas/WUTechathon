@@ -64,7 +64,7 @@ class LiveGraph extends Component {
       <div className="mt-2">
         <center>{this.state.selection}</center>
         {/* {this.state.history[this.state.history.length - 1]["uv"]} */}
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={190}>
           <AreaChart
             width={730}
             height={150}

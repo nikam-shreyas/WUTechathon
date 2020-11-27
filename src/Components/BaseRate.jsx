@@ -17,7 +17,7 @@ class BaseRate extends Component {
   toggle() {
     document.getElementsByClassName("ratesTable")[0].style.height =
       document.getElementsByClassName("ratesTable")[0].style.height === "auto"
-        ? "230px"
+        ? "200px"
         : "auto";
   }
   handleSelectionChange(selection) {

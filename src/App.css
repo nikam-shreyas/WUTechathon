@@ -179,7 +179,11 @@ body {
   border: 8px solid #202a43;
   padding: 4px;
 }
-
+.table-border,
+.table-border th,
+.table-border td {
+  border: 1px dashed lightblue;
+}
 .rateDisplay {
   margin-top: 5px;
   margin-bottom: 5px;
