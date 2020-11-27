@@ -113,8 +113,8 @@ def getProviders():
     else:
         q="_"
     response["exchangerate"]=round(rates.get(quote),5)
-    response["freeforex"] = round(q+random.uniform(-0.5,0.5),5)
-    response["fixer"] = round(q+random.uniform(-0.5,0.5),5)
+    response["freeforex"] = abs(round(q+random.uniform(-0.5,0.5),5))
+    response["fixer"] = abs(round(q+random.uniform(-0.5,0.5),5))
     # fixer = f"http://data.fixer.io/api/latest?access_key={API_KEY}&base={base}&symbols={quote}"
     # y = requests.get(fixer)
     # print(y.json())
@@ -145,28 +145,28 @@ def get_exchrate():
     x = requests.get(string)
     rates = x.json().get('rates')
     rates = {k:v for k,v in sorted(rates.items(), key=lambda v: v[1])}
-    str2 = "https://www.freeforexapi.com/api/live?pairs="
-    for rate in rates:
-        if base+rate in freeforexSupportedPairs:
-            str2+=base+rate+","
-    str2=str2[:-1]
-    frates = requests.get(str2)
-    frates = frates.json().get('rates')
+    # str2 = "https://www.freeforexapi.com/api/live?pairs="
+    # for rate in rates:
+    #     if base+rate in freeforexSupportedPairs:
+    #         str2+=base+rate+","
+    # str2=str2[:-1]
+    # frates = requests.get(str2)
+    # frates = frates.json().get('rates')
     response={}
     for rate in rates:
         response[rate]=[]
         response[rate].append({"exchangerate":rates[rate]})
-    if frates is not None:
-        fratesKey = frates.keys()
-        fratesKey = [f[3:] for f in frates]
-        for rate in fratesKey:
-            response[rate].append({"freeforex":frates[base+rate]["rate"]})
-        for rate in rates:
-            if rate not in fratesKey:
-                response[rate].append({"freeforex":"_"})
-    else:
-        for rate in rates:
-            response[rate].append({"freeforex":"_"})
+    # if frates is not None:
+    #     fratesKey = frates.keys()
+    #     fratesKey = [f[3:] for f in frates]
+    #     for rate in fratesKey:
+    #         response[rate].append({"freeforex":frates[base+rate]["rate"]})
+    #     for rate in rates:
+    #         if rate not in fratesKey:
+    #             response[rate].append({"freeforex":"_"})
+    # else:
+    #     for rate in rates:
+    #         response[rate].append({"freeforex":"_"})
     list1 = list(response.items())
     return {"resp":list1}
 
@@ -193,8 +193,8 @@ def historical_rates():
     count = 0
     for rate in rates:
         q = round(rates[rate][quote],5)
-        r =  round(q + random.uniform(-0.5,0.5),5) 
-        f = round(q + random.uniform(-0.5,0.5),5)
+        r =  abs(round(q + random.uniform(-0.5,0.5),5)) 
+        f = abs(round(q + random.uniform(-0.5,0.5),5))
         count = count+1
         eSum+=q
         rSum+=r
