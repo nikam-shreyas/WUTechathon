@@ -61,9 +61,9 @@ class BaseRate extends Component {
             if (!isNaN(element[1][0]["exchangerate"]))
               temp["exchangerate"] = element[1][0]["exchangerate"].toFixed(5);
             else temp["exchangerate"] = "-";
-            if (!isNaN(element[1][1]["freeforex"]))
-              temp["freeforex"] = element[1][1]["freeforex"];
-            else temp["freeforex"] = "-";
+            // if (!isNaN(element[1][1]["freeforex"]))
+            //   temp["freeforex"] = element[1][1]["freeforex"];
+            // else temp["freeforex"] = "-";
             let tempDate = new Date();
             temp["date"] =
               tempDate.getHours() +
