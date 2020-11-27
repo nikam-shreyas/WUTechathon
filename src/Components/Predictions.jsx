@@ -41,7 +41,7 @@ class Predictions extends Component {
             <tr className="ratesHeader mb-2">
               <th>Currency</th>
               <th>Today's Rate</th>
-              <th>Tomorrow's Rate</th>
+              <th>Tomorrow's Predictions</th>
             </tr>
             <tr>
               <td>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { list2 } from "../Helper/List";
 class Convertor extends Component {
   state = {
     base: "USD",
@@ -11,6 +10,7 @@ class Convertor extends Component {
   };
   constructor(props) {
     super(props);
+    this.setState({ base: props.base, quote: props.quote });
     this.fetchData = this.fetchData.bind(this);
     this.handleBaseChange = this.handleBaseChange.bind(this);
     this.handleQuoteChange = this.handleQuoteChange.bind(this);
@@ -45,8 +45,6 @@ class Convertor extends Component {
           reverse: tempRev,
           timestamp: new Date().toLocaleString(),
         });
-        document.getElementById("convertFrom").value = 1;
-        document.getElementById("convertTo").value = this.state.convert;
       });
   }
   handleBaseChange(e) {
@@ -82,32 +80,9 @@ class Convertor extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
+        <div className="row mt-2 mb-2">
           <div className="col-sm-5">
-            Base: {"   "}
-            <button
-              className="btn btn-secondary btn-sm dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {this.state.base}
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {list2.map((e, i) => (
-                <a
-                  className="dropdown-item"
-                  key={i}
-                  onClick={() => {
-                    this.handleBaseChange({ e });
-                  }}
-                >
-                  {e}
-                </a>
-              ))}
-            </div>
+            Base: {this.state.base}
             <input
               className="form-control"
               type="number"
@@ -116,38 +91,9 @@ class Convertor extends Component {
               onChange={this.handleConvertChange}
             />
           </div>
-          <div className="col-sm-2">
-            <button
-              className="btn btn-sm btn-primary mt-3"
-              onClick={this.handleInterchange}
-            >
-              &lt;&gt;
-            </button>
-          </div>
+          <div className="col-sm-2"></div>
           <div className="col-sm-5">
-            Quote: {"   "}
-            <button
-              className="btn btn-secondary btn-sm dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {this.state.quote}
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {list2.map((e) => (
-                <a
-                  className="dropdown-item"
-                  onClick={() => {
-                    this.handleQuoteChange({ e });
-                  }}
-                >
-                  {e}
-                </a>
-              ))}
-            </div>
+            Quote: {this.state.quote}
             <input
               className="form-control"
               type="number"

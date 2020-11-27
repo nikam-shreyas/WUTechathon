@@ -22,6 +22,7 @@ class LiveGraph extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.selection != this.state.selection) {
       this.setState({ selection: nextProps.selection });
+      this.setState({ history: [{ name: "", value: 0.0 }] });
     }
   }
   fetchData() {

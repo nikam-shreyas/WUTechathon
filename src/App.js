@@ -214,7 +214,7 @@ class App extends Component {
                 height: "30px",
               }}
             >
-              Live Rates
+              Live Graph
             </div>
 
             <LiveGraph
@@ -227,11 +227,6 @@ class App extends Component {
           <div className="col-sm-8 selector">
             <HistoricalGraph />
           </div>
-          <div className="col-sm-4 selector">
-            <Displayrates />
-          </div>
-        </div>
-        <div className="row">
           <div className="col-sm-4 selector">
             <Predictions />
           </div>
