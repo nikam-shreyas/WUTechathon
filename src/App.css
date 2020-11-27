@@ -220,6 +220,7 @@ body {
   border-bottom: 5px solid #2b3f5e;
   padding-left: 15px;
   padding-right: 15px;
+  margin: 0;
   background-color: #2b3f5e;
 }
 ::-webkit-calendar-picker-indicator {
@@ -308,6 +309,24 @@ body {
   100% {
     transform: translateY(-1100%);
   }
+}
+.histratesTable {
+  text-align: right;
+  height: 200px;
+  overflow-y: hidden;
+}
+.histratesTable table {
+  width: 90%;
+}
+.histratesHeader {
+  color: rgba(139, 171, 219, 0.932);
+  padding: 2px;
+
+  font-size: 15px;
+  margin: 2px;
+}
+.histratesHeader td {
+  margin: 2px;
 }
 
 .ratesTable {

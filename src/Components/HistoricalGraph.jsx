@@ -314,6 +314,7 @@ class HistoricalGraph extends Component {
             </LineChart>
           </ResponsiveContainer>
           <br />
+         
         </div>
       </div>
     );
