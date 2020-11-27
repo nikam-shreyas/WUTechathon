@@ -186,16 +186,18 @@ def historical_rates():
     rates = {k:v for k,v in sorted(rates.items(), key=lambda v:v[0])}
     print(rates)
     newlist=[]
-    eMaxx = rMax = -1
-    eMin = rMin = 99999
-    eSum = rSum = 0
+    eMaxx = rMax = fMax = -1
+    eMin = rMin = fMin = 99999
+    eSum = rSum = fSum = 0
     count = 0
     for rate in rates:
         q = round(rates[rate][quote],5)
-        r = round(q + random.uniform(-0.5,0.5),5)
+        r =  round(q + random.uniform(-0.5,0.5),5) 
+        f = round(q + random.uniform(-0.5,0.5),5)
         count = count+1
         eSum+=q
         rSum+=r
+        fSum+=f
         if r>rMax:
             rMax = r
         if r<rMin:
@@ -204,15 +206,22 @@ def historical_rates():
             eMin=q
         if q>eMaxx:
             eMaxx=q
-        newlist.append({"date":rate,"eRate":q,"rRate":r})
+        if f<fMin:
+            fMin=f
+        if f>fMax:
+            fMax=f
+        newlist.append({"date":rate,"eRate":q,"rRate":r, "fRate":f})
     return {
         "list":newlist, 
         "eMax":eMaxx,
         "eMin":eMin, 
         "rMax":rMax, 
         "rMin":rMin,
-        "eAvg":eSum/count,
-        "rAvg":rSum/count
+        "fMin":fMin,
+        "fMax":fMax,
+        "fAvg":round(fSum/count,5),
+        "eAvg":round(eSum/count,5),
+        "rAvg":round(rSum/count,5)
        }
 
 def updateRates():
