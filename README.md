@@ -1,5 +1,5 @@
 <h1> FXSimplified </h1>
-A forex aggregator which combines data from various sources and presents the trends in the market, while also providing predictions for the next day. Contains functionality to view and download live as well as historical rates. A responsive and well-integrated  fro
+A forex aggregator which combines data from various sources and presents the trends in the market, while also providing predictions for the next day. Contains functionality to view and download live as well as historical rates.
 
 <h2> Technologies used: </h2>
 <ul>
