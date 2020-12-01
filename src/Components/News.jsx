@@ -40,7 +40,7 @@ class News extends Component {
         res["value"].forEach((element) => {
           temp.push({
             title: element["title"],
-            datePublished: element["datePublished"],
+            datePublished: Date(element["datePublished"]).toLocaleString(),
             url: element["url"],
             provider: element["provider"]["name"],
           });
